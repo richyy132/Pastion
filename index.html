@@ -793,21 +793,45 @@ function Home({ setPage, openProduct, addToCart }) {
 }
 
 function Shop({ openProduct, addToCart }) {
-  const [filter, setFilter] = useState("all");
-  const filtered = PRODUCTS.filter(p => filter === "all" || (filter === "hoodies" ? p.silhouette !== "Half-zip" : p.silhouette === "Half-zip"));
+  const [sort, setSort] = useState("featured");
+
+  const SORT_OPTIONS = [
+    { value: "featured",     label: "Featured" },
+    { value: "relevant",     label: "Most relevant" },
+    { value: "best-selling", label: "Best selling" },
+    { value: "alpha-asc",    label: "Alphabetically, A-Z" },
+    { value: "alpha-desc",   label: "Alphabetically, Z-A" },
+    { value: "price-asc",    label: "Price, low to high" },
+    { value: "price-desc",   label: "Price, high to low" },
+    { value: "date-asc",     label: "Date, old to new" },
+    { value: "date-desc",    label: "Date, new to old" },
+  ];
+
+  const sorted = [...PRODUCTS].sort((a, b) => {
+    if (sort === "alpha-asc")  return a.name.localeCompare(b.name);
+    if (sort === "alpha-desc") return b.name.localeCompare(a.name);
+    if (sort === "price-asc")  return a.price - b.price;
+    if (sort === "price-desc") return b.price - a.price;
+    return 0;
+  });
+
   return (
     <div>
-      <div className="plp-head">
-        <div><div className="eyebrow" style={{ marginBottom: 14 }}>Shop / Drop 02</div><h1>The <em>collection</em></h1></div>
-        <div className="plp-filters">
-          <span style={{ color: "var(--char)" }}>Filter:</span>
-          <span className={"chip " + (filter === "all" ? "is-on" : "")} onClick={() => setFilter("all")}>All — {PRODUCTS.length}</span>
-          <span className={"chip " + (filter === "hoodies" ? "is-on" : "")} onClick={() => setFilter("hoodies")}>Hoodies</span>
-          <span className={"chip " + (filter === "qzips" ? "is-on" : "")} onClick={() => setFilter("qzips")}>Quarter-Zips</span>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", padding: "24px var(--gutter) 16px", gap: 10 }}>
+        <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--char)" }}>Sort by</span>
+        <div style={{ position: "relative" }}>
+          <select
+            value={sort}
+            onChange={e => setSort(e.target.value)}
+            style={{ appearance: "none", fontFamily: "var(--f-sans)", fontSize: 13, color: "var(--ink)", background: "var(--paper)", border: "1px solid var(--line)", borderRadius: 0, padding: "8px 32px 8px 12px", cursor: "pointer", outline: "none" }}
+          >
+            {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", fontSize: 10, color: "var(--char)" }}>▾</span>
         </div>
       </div>
-      <div className="product-grid" style={{ "--cols": 3 }}>
-        {filtered.map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
+      <div className="product-grid" style={{ "--cols": 4 }}>
+        {sorted.map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
       </div>
     </div>
   );
