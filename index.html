@@ -513,9 +513,8 @@ function NavDropdown({ trigger, columns, isActive, onItemClick }) {
 function Nav({ page, setPage, cart, openCart }) {
   const count = cart.reduce((a, b) => a + b.qty, 0);
   const shopCols = [
-    { heading: "Featured", items: [{ label: "Shop All", to: "shop" }, { label: "Best Sellers", note: "Top 06", to: "shop" }, { label: "New Arrivals", note: "Drop 02", to: "shop" }] },
+    { heading: "Featured", items: [{ label: "Best Sellers", to: "shop" }, { label: "New Arrivals", to: "shop" }] },
     { heading: "Shop", items: [{ label: "Tees", to: "shop" }, { label: "Tops", to: "shop" }, { label: "Bottoms", to: "shop" }, { label: "Small Goods", to: "shop" }] },
-    { heading: "Shop all", items: [{ label: "View entire collection →", to: "shop" }] },
   ];
   const elseCols = [
     { heading: "My Account", items: [{ label: "Account" }, { label: "Order Status" }, { label: "Returns & Exchanges" }] },
