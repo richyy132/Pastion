@@ -46,7 +46,7 @@ hr { border: none; border-top: 1px solid var(--line); margin: 0; }
 .nav-dd-panel { position: absolute; top: calc(100% + 16px); left: 0; transform: translateY(-6px); min-width: 640px; max-width: calc(100vw - 32px); background: var(--paper); border: 1px solid var(--ink); z-index: 80; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.1, 1), visibility 0s linear 0.25s; }
 .nav-right .nav-dd-panel { left: auto; right: 0; }
 .nav-dd.is-open .nav-dd-panel { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.1, 1), visibility 0s linear 0s; }
-.nav-dd-inner { display: grid; grid-template-columns: repeat(3, 1fr); }
+.nav-dd-inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 .nav-dd-col { padding: 24px 26px; border-right: 1px solid var(--line); }
 .nav-dd-col:last-child { border-right: none; }
 .nav-dd-head { font-family: var(--f-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--stone); margin-bottom: 14px; }
@@ -778,7 +778,7 @@ function Home({ setPage, openProduct, addToCart }) {
         <div className="section-head">
           <span className="left">New Arrivals &amp; Best Sellers</span>
           <h2><em>Pastion</em> Collection</h2>
-          <span className="right">Service Issue — 02</span>
+          <span className="right"></span>
         </div>
         <div className="product-grid" style={{ "--cols": 4 }}>
           {PRODUCTS.slice(0, 4).map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
