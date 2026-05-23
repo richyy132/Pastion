@@ -569,10 +569,8 @@ function Footer({ setPage }) {
         <div><h4>Studio</h4><ul><li onClick={() => setPage("about")}>About</li><li onClick={() => setPage("lookbook")}>Lookbook</li><li>Journal</li><li>Stockists</li></ul></div>
         <div><h4>Service</h4><ul><li>Size Guide</li><li>Shipping</li><li>Returns</li><li>Contact</li></ul></div>
       </div>
-      <div className="footer-display"><em>Pastion</em></div>
       <div className="footer-base">
         <span>© PSTN Studio — Est. MMXXIV</span>
-        <span>Vancouver / Worldwide</span>
         <span>Instagram — TikTok — Discord</span>
       </div>
     </footer>
@@ -748,25 +746,46 @@ function ProductCard({ p, onOpen, onQuickAdd }) {
   );
 }
 
-function Home({ setPage }) {
+function Home({ setPage, openProduct, addToCart }) {
+  const catalogRef = useRef(null);
   return (
-    <div style={{ position: "relative", height: "calc(100vh - 61px)", overflow: "hidden" }}>
-      <div className="ph" style={{ width: "100%", height: "100%" }}>
-        <div className="silhouette" />
+    <div>
+      <div style={{ position: "relative", height: "calc(100vh - 61px)", overflow: "hidden" }}>
+        <div className="ph" style={{ width: "100%", height: "100%" }}>
+          <div className="silhouette" />
+        </div>
+        <div style={{
+          position: "absolute", inset: 0,
+          display: "flex", flexDirection: "column",
+          alignItems: "center", justifyContent: "flex-end",
+          paddingBottom: "10vh", gap: 20,
+        }}>
+          <button
+            className="btn btn-solid"
+            style={{ fontSize: 13, letterSpacing: "0.22em", padding: "18px 48px" }}
+            onClick={() => setPage("shop")}
+          >
+            Shop Now
+          </button>
+          <button
+            onClick={() => catalogRef.current?.scrollIntoView({ behavior: "smooth" })}
+            style={{ fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--paper)", opacity: 0.7, background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}
+          >
+            Scroll
+            <span style={{ display: "block", width: 1, height: 32, background: "currentColor", opacity: 0.5 }} />
+          </button>
+        </div>
       </div>
-      <div style={{
-        position: "absolute", inset: 0,
-        display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "flex-end",
-        paddingBottom: "10vh",
-      }}>
-        <button
-          className="btn btn-solid"
-          style={{ fontSize: 13, letterSpacing: "0.22em", padding: "18px 48px" }}
-          onClick={() => setPage("shop")}
-        >
-          Shop Now
-        </button>
+
+      <div ref={catalogRef}>
+        <div className="section-head">
+          <span className="left">New Arrivals &amp; Best Sellers</span>
+          <h2>The <em>drop</em></h2>
+          <span className="right">Service Issue — 02</span>
+        </div>
+        <div className="product-grid" style={{ "--cols": 3 }}>
+          {PRODUCTS.map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
+        </div>
       </div>
     </div>
   );
@@ -967,7 +986,7 @@ function App() {
   }
 
   function renderPage() {
-    if (page === "home") return <Home setPage={setPage} openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} heroVariant={tweaks.heroVariant} />;
+    if (page === "home") return <Home setPage={setPage} openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} />;
     if (page === "shop") return <Shop openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} />;
     if (page === "pdp" && activeProduct) return <PDP product={activeProduct} addToCart={addToCart} goBack={() => setPage("shop")} />;
     if (page === "lookbook") return <Lookbook />;
