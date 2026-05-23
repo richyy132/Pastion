@@ -545,7 +545,7 @@ function Footer() {
   const link = { display: "block", marginBottom: 10, fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", cursor: "pointer" };
   return (
     <footer style={{ borderTop: "1px solid var(--line)", padding: "48px var(--gutter) 32px" }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto", gap: "64px", alignItems: "start" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "32px", alignItems: "start", maxWidth: "860px" }}>
         <div>
           <h4 style={colHead}>Stay Connected</h4>
           <div style={{ display: "flex", borderBottom: "1px solid var(--ink)", paddingBottom: 8, marginBottom: 12 }}>
@@ -565,7 +565,7 @@ function Footer() {
         </div>
 
         <div>
-          <h4 style={colHead}>Quick Links</h4>
+          <h4 style={colHead}>Terms &amp; Conditions</h4>
           {["Shipping Policy", "Terms of Service", "Privacy Policy", "Refund Policy"].map(s => (
             <a key={s} href="#" onClick={e => e.preventDefault()} style={link}>{s}</a>
           ))}
