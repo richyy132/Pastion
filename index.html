@@ -7,20 +7,1012 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <style>
+:root {
+  --paper: #ffffff;
+  --ink: #0a0a0a;
+  --char: #3a3a3a;
+  --stone: #888888;
+  --line: rgba(10, 10, 10, 0.10);
+  --line-strong: rgba(10, 10, 10, 0.20);
+  --muted-bg: #f0f0f0;
+  --warm-tint: rgba(0, 0, 0, 0.03);
+  --gutter: 28px;
+  --section: 96px;
+  --row: 56px;
+  --f-display: "Instrument Serif", "Times New Roman", serif;
+  --f-sans: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { background: var(--paper); color: var(--ink); font-family: var(--f-sans); font-size: 14px; line-height: 1.45; -webkit-font-smoothing: antialiased; letter-spacing: 0.005em; overflow-x: hidden; }
+button { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+hr { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+.nav { position: sticky; top: 0; z-index: 50; background: color-mix(in oklab, var(--paper) 88%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+.nav-inner { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 18px var(--gutter); gap: 24px; }
+.nav-links { display: flex; gap: 22px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+.nav-link { position: relative; padding: 4px 0; cursor: pointer; }
+.nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 0.4s cubic-bezier(0.7, 0, 0.2, 1); }
+.nav-link:hover::after, .nav-link.is-active::after { transform: scaleX(1); }
+.nav-right { justify-self: end; display: flex; gap: 22px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+.nav-dd { position: relative; display: inline-flex; align-items: center; }
+.nav-dd > .nav-link { display: inline-flex; align-items: center; gap: 6px; }
+.nav-caret { display: inline-block; font-family: var(--f-mono); font-size: 10px; line-height: 1; opacity: 0.5; transition: transform 0.3s ease, opacity 0.2s ease; }
+.nav-dd.is-open .nav-caret { transform: rotate(45deg); opacity: 1; }
+.nav-dd-panel { position: absolute; top: calc(100% + 16px); left: 0; transform: translateY(-6px); min-width: 640px; max-width: calc(100vw - 32px); background: var(--paper); border: 1px solid var(--ink); z-index: 80; opacity: 0; pointer-events: none; visibility: hidden; transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.1, 1), visibility 0s linear 0.25s; }
+.nav-right .nav-dd-panel { left: auto; right: 0; }
+.nav-dd.is-open .nav-dd-panel { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.2, 0.7, 0.1, 1), visibility 0s linear 0s; }
+.nav-dd-inner { display: grid; grid-template-columns: repeat(3, 1fr); }
+.nav-dd-col { padding: 24px 26px; border-right: 1px solid var(--line); }
+.nav-dd-col:last-child { border-right: none; }
+.nav-dd-head { font-family: var(--f-mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--stone); margin-bottom: 14px; }
+.nav-dd-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.nav-dd-col li a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 6px 0; font-family: var(--f-sans); font-size: 14px; font-weight: 500; letter-spacing: 0.005em; text-transform: none; color: var(--ink); border-bottom: 1px solid transparent; transition: border-color 0.2s ease; }
+.nav-dd-col li a:hover { border-bottom-color: var(--ink); }
+.nav-dd-note { font-family: var(--f-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--stone); font-style: normal; }
+.nav-cart { display: inline-flex; align-items: center; gap: 6px; }
+.nav-cart .count { display: inline-block; min-width: 14px; height: 14px; border-radius: 999px; background: var(--ink); color: var(--paper); font-size: 9px; line-height: 14px; text-align: center; padding: 0 4px; }
+.wordmark { font-family: var(--f-display); font-style: italic; font-size: 28px; letter-spacing: -0.01em; line-height: 1; }
+.wordmark sup { font-family: var(--f-mono); font-style: normal; font-size: 8px; letter-spacing: 0.18em; vertical-align: super; margin-left: 4px; opacity: 0.6; }
+
+.ph { position: relative; background: var(--muted-bg); overflow: hidden; isolation: isolate; }
+.ph::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(135deg, rgba(10,10,10,0.025) 0 1px, transparent 1px 14px); }
+.ph::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(10,10,10,0.04), transparent 65%); }
+.ph-label { position: absolute; bottom: 12px; left: 12px; font-family: var(--f-mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--char); opacity: 0.55; z-index: 2; }
+.ph-glyph { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-style: italic; font-size: clamp(40px, 18%, 220px); color: rgba(10,10,10,0.06); user-select: none; pointer-events: none; }
+.silhouette { position: absolute; inset: 12% 18%; background: radial-gradient(ellipse 22% 8% at 50% 5%, var(--stone) 60%, transparent 62%), linear-gradient(180deg, transparent 0 6%, rgba(43,42,39,0.18) 6% 100%); border-radius: 36% 36% 6% 6% / 22% 22% 4% 4%; filter: blur(0.4px); opacity: 0.55; }
+.silhouette::before { content: ""; position: absolute; left: 6%; right: 6%; top: 22%; height: 40%; border-left: 1px solid rgba(10,10,10,0.06); border-right: 1px solid rgba(10,10,10,0.06); }
+.silhouette::after { content: ""; position: absolute; left: 46%; right: 46%; top: 32%; height: 14%; border: 1px solid rgba(10,10,10,0.08); border-radius: 2px; }
+
+.eyebrow { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--char); }
+.display { font-family: var(--f-display); font-weight: 400; line-height: 0.92; letter-spacing: -0.02em; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 22px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; border: 1px solid var(--ink); color: var(--ink); background: transparent; cursor: pointer; transition: background 0.3s ease, color 0.3s ease; }
+.btn:hover { background: var(--ink); color: var(--paper); }
+.btn-solid { background: var(--ink); color: var(--paper); }
+.btn-solid:hover { background: var(--char); color: var(--paper); }
+.btn-ghost { border-color: var(--line); }
+.btn-block { width: 100%; }
+
+.hero-edit { display: grid; grid-template-columns: 5fr 7fr; gap: 0; min-height: 86vh; border-bottom: 1px solid var(--line); }
+.hero-edit-left { padding: var(--section) var(--gutter) 48px; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; border-right: 1px solid var(--line); }
+.hero-edit-title { font-family: var(--f-display); font-size: clamp(56px, 7.5vw, 124px); line-height: 0.88; letter-spacing: -0.025em; }
+.hero-edit-title em { font-style: italic; }
+.hero-edit-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding-top: 24px; border-top: 1px solid var(--line); }
+.hero-edit-meta dt { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--char); margin-bottom: 6px; }
+.hero-edit-meta dd { margin: 0; font-size: 13px; }
+.hero-edit-right { position: relative; min-height: 600px; }
+.hero-edit-right .ph { height: 100%; }
+.hero-tag { position: absolute; top: 28px; right: 28px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--char); z-index: 3; }
+.hero-tag .dot { display: inline-block; width: 6px; height: 6px; background: #d24a2a; border-radius: 999px; margin-right: 6px; vertical-align: middle; animation: pulse 2.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+.hero-brut { border-bottom: 1px solid var(--line); }
+.hero-brut-title { font-family: var(--f-sans); font-weight: 800; font-size: clamp(80px, 18vw, 280px); letter-spacing: -0.04em; line-height: 0.82; text-transform: uppercase; padding: 32px var(--gutter) 0; display: flex; flex-direction: column; }
+.hero-brut-title .row { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.hero-brut-title .row + .row { padding-top: 10px; }
+.hero-brut-sub { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 400; align-self: flex-end; text-align: right; max-width: 280px; }
+.hero-brut-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.hero-brut-grid > div { aspect-ratio: 4 / 5; border-right: 1px solid var(--line); position: relative; }
+.hero-brut-grid > div:last-child { border-right: none; }
+.hero-brut-foot { display: flex; justify-content: space-between; align-items: center; padding: 18px var(--gutter); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; border-top: 1px solid var(--line); }
+
+.hero-drop { position: relative; border-bottom: 1px solid var(--line); overflow: hidden; }
+.hero-drop-stage { display: grid; grid-template-columns: 1fr 1.4fr 1fr; min-height: 78vh; }
+.hero-drop-stage > div { border-right: 1px solid var(--line); position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 28px; gap: 16px; }
+.hero-drop-stage > div:last-child { border-right: none; }
+.hero-drop-center { padding: 0 !important; }
+.hero-drop-center .ph { width: 100%; height: 100%; }
+.drop-countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; border-top: 1px solid var(--line); padding-top: 16px; }
+.drop-countdown .unit { font-family: var(--f-display); font-size: 48px; line-height: 1; }
+.drop-countdown .lbl { font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--char); margin-top: 4px; }
+.hero-drop-marquee { border-top: 1px solid var(--line); padding: 14px 0; overflow: hidden; white-space: nowrap; }
+.hero-drop-marquee-track { display: inline-block; padding-left: 100%; animation: marquee 38s linear infinite; font-family: var(--f-display); font-style: italic; font-size: 44px; letter-spacing: -0.01em; }
+.hero-drop-marquee-track span { margin: 0 36px; }
+.hero-drop-marquee-track span.acc { color: var(--stone); }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+
+.section-head { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 24px; padding: var(--section) var(--gutter) 32px; }
+.section-head h2 { margin: 0; font-family: var(--f-display); font-weight: 400; font-size: clamp(32px, 4vw, 56px); letter-spacing: -0.02em; line-height: 1; text-align: center; }
+.section-head h2 em { font-style: italic; }
+.section-head .left, .section-head .right { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--char); }
+.section-head .right { text-align: right; }
+
+.product-grid { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.card { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 18px; background: var(--paper); position: relative; display: flex; flex-direction: column; gap: 14px; transition: background 0.3s ease; }
+.card:hover { background: var(--warm-tint); }
+.card-media { aspect-ratio: 4 / 5; position: relative; overflow: hidden; }
+.card-media .ph { width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.1, 1); }
+.card:hover .card-media .ph { transform: scale(1.025); }
+.card-quickadd { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; gap: 6px; opacity: 0; transform: translateY(8px); transition: opacity 0.3s ease, transform 0.3s ease; }
+.card:hover .card-quickadd { opacity: 1; transform: translateY(0); }
+.card-quickadd button { flex: 1; background: var(--paper); border: 1px solid var(--ink); font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; padding: 8px 0; transition: background 0.2s ease, color 0.2s ease; }
+.card-quickadd button:hover { background: var(--ink); color: var(--paper); }
+.card-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.card-title { font-family: var(--f-sans); font-weight: 500; font-size: 14px; letter-spacing: 0.005em; }
+.card-sub { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--char); margin-top: 2px; }
+.card-price { font-family: var(--f-mono); font-size: 12px; white-space: nowrap; }
+.card-tag { position: absolute; top: 24px; left: 24px; z-index: 2; font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 8px; background: var(--paper); border: 1px solid var(--ink); }
+.card-tag.low { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.footer { margin-top: var(--section); border-top: 1px solid var(--line); padding: 56px var(--gutter) 28px; }
+.footer-inner { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 48px; padding-bottom: 56px; }
+.footer h4 { margin: 0 0 16px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--char); font-weight: 400; }
+.footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.footer ul li { cursor: pointer; }
+.footer ul li:hover { color: var(--char); }
+.footer-display { font-family: var(--f-display); font-style: italic; font-size: clamp(72px, 12vw, 220px); line-height: 0.85; letter-spacing: -0.025em; padding: 28px 0 16px; border-top: 1px solid var(--line); }
+.footer-base { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--line); font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--char); }
+.newsletter { display: flex; gap: 0; border-bottom: 1px solid var(--ink); padding-bottom: 8px; }
+.newsletter input { flex: 1; border: none; background: transparent; font-family: var(--f-sans); font-size: 14px; padding: 6px 0; outline: none; color: var(--ink); }
+.newsletter input::placeholder { color: var(--stone); }
+.newsletter button { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
+
+.edit-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.edit-strip > div { padding: 56px var(--gutter); border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 24px; }
+.edit-strip > div:last-child { border-right: none; }
+.edit-strip .ph { aspect-ratio: 4 / 5; }
+.edit-strip h3 { font-family: var(--f-display); font-weight: 400; font-style: italic; font-size: clamp(28px, 3vw, 44px); margin: 0; letter-spacing: -0.015em; line-height: 1; }
+.edit-strip p { max-width: 36ch; color: var(--char); margin: 0; }
+
+.plp-head { display: grid; grid-template-columns: 1fr auto; align-items: end; padding: 64px var(--gutter) 24px; gap: 24px; }
+.plp-head h1 { font-family: var(--f-display); font-weight: 400; margin: 0; font-size: clamp(48px, 6vw, 96px); letter-spacing: -0.025em; line-height: 0.95; }
+.plp-head h1 em { font-style: italic; }
+.plp-filters { display: flex; gap: 16px; align-items: center; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; }
+.chip { padding: 8px 12px; border: 1px solid var(--line); cursor: pointer; transition: all 0.2s ease; }
+.chip.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip:hover { border-color: var(--ink); }
+
+.pdp { display: grid; grid-template-columns: 7fr 5fr; border-bottom: 1px solid var(--line); }
+.pdp-gallery { border-right: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; }
+.pdp-gallery .ph { aspect-ratio: 4 / 5; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.pdp-gallery .ph:nth-child(2n) { border-right: none; }
+.pdp-info { padding: 56px var(--gutter); position: sticky; top: 80px; align-self: start; display: flex; flex-direction: column; gap: 28px; }
+.pdp-title { font-family: var(--f-display); font-weight: 400; font-size: clamp(36px, 4vw, 64px); letter-spacing: -0.02em; margin: 0; line-height: 0.95; }
+.pdp-title em { font-style: italic; }
+.pdp-price { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.08em; }
+.pdp-section { border-top: 1px solid var(--line); padding-top: 20px; }
+.pdp-section h4 { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--char); margin: 0 0 12px; font-weight: 400; display: flex; justify-content: space-between; }
+.pdp-section h4 button { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: underline; text-underline-offset: 3px; }
+.size-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.size-btn { border: 1px solid var(--line); padding: 12px 0; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; transition: all 0.2s ease; }
+.size-btn:hover { border-color: var(--ink); }
+.size-btn.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.size-btn.is-oos { color: var(--stone); cursor: not-allowed; text-decoration: line-through; }
+.color-row { display: flex; gap: 10px; }
+.swatch { width: 28px; height: 28px; border-radius: 999px; border: 1px solid var(--line-strong); cursor: pointer; position: relative; }
+.swatch.is-on::after { content: ""; position: absolute; inset: -4px; border: 1px solid var(--ink); border-radius: 999px; }
+.pdp-stock { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; color: var(--char); }
+.pdp-stock .bar { flex: 1; height: 2px; background: var(--line); position: relative; overflow: hidden; }
+.pdp-stock .bar > i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--ink); width: 18%; }
+.pdp-stock.low { color: #c0421f; }
+.pdp-stock.low .bar > i { background: #c0421f; }
+.accordion { border-top: 1px solid var(--line); }
+.accordion summary { list-style: none; cursor: pointer; padding: 18px 0; display: flex; justify-content: space-between; align-items: center; font-family: var(--f-mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; }
+.accordion summary::-webkit-details-marker { display: none; }
+.accordion summary .sym { transition: transform 0.3s ease; }
+.accordion[open] summary .sym { transform: rotate(45deg); }
+.accordion .body { padding-bottom: 18px; font-size: 13px; color: var(--char); line-height: 1.55; }
+.accordion .body p { margin: 0 0 10px; }
+.accordion .spec-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.accordion .spec-row dt { color: var(--stone); }
+.accordion .spec-row dd { margin: 0; }
+
+.modal { position: fixed; inset: 0; background: rgba(10,10,10,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 24px; animation: fadein 0.2s ease; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+.modal-card { background: var(--paper); max-width: 720px; width: 100%; border: 1px solid var(--ink); padding: 36px; position: relative; }
+.modal-card h3 { font-family: var(--f-display); font-weight: 400; font-size: 32px; margin: 0 0 18px; letter-spacing: -0.02em; }
+.modal-card .close { position: absolute; top: 16px; right: 18px; font-family: var(--f-mono); font-size: 14px; }
+.size-table { width: 100%; border-collapse: collapse; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; }
+.size-table th, .size-table td { border-bottom: 1px solid var(--line); padding: 10px 8px; text-align: left; }
+.size-table th { color: var(--char); text-transform: uppercase; font-weight: 400; }
+
+.scrim { position: fixed; inset: 0; background: rgba(10,10,10,0.4); z-index: 150; animation: fadein 0.25s ease; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(440px, 100vw); background: var(--paper); z-index: 160; display: flex; flex-direction: column; border-left: 1px solid var(--ink); animation: slidein 0.3s cubic-bezier(0.2, 0.7, 0.1, 1); }
+@keyframes slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 22px var(--gutter); border-bottom: 1px solid var(--line); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 0 var(--gutter); }
+.drawer-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.drawer-item .ph { width: 80px; height: 100px; }
+.drawer-item .name { font-size: 14px; font-weight: 500; }
+.drawer-item .specs { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--char); margin-top: 4px; }
+.drawer-item .qty { font-family: var(--f-mono); font-size: 11px; margin-top: 14px; display: flex; align-items: center; gap: 8px; }
+.drawer-item .qty button { padding: 0 6px; }
+.drawer-item .price { font-family: var(--f-mono); font-size: 12px; text-align: right; }
+.drawer-item .remove { display: block; text-align: right; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); margin-top: 8px; text-decoration: underline; text-underline-offset: 2px; }
+.drawer-foot { border-top: 1px solid var(--line); padding: 20px var(--gutter) 24px; }
+.drawer-foot .row { display: flex; justify-content: space-between; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 0; }
+.drawer-foot .total { font-family: var(--f-display); font-size: 24px; letter-spacing: -0.01em; text-transform: none; }
+.drawer-empty { padding: 80px var(--gutter); text-align: center; display: flex; flex-direction: column; gap: 18px; align-items: center; }
+.drawer-empty .display { font-family: var(--f-display); font-style: italic; font-size: 48px; letter-spacing: -0.02em; }
+
+.lookbook-hero { padding: 96px var(--gutter) 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: end; border-bottom: 1px solid var(--line); }
+.lookbook-hero h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(72px, 11vw, 200px); line-height: 0.85; letter-spacing: -0.03em; margin: 0; }
+.lookbook-hero h1 em { font-style: italic; }
+.lookbook-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 120px; gap: 1px; background: var(--line); border-bottom: 1px solid var(--line); }
+.lookbook-grid > div { background: var(--muted-bg); position: relative; }
+.lookbook-grid .ph { width: 100%; height: 100%; }
+.lk-caption { position: absolute; left: 14px; bottom: 14px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--char); z-index: 2; background: var(--paper); padding: 5px 8px; }
+.lk-1 { grid-column: span 5; grid-row: span 5; }
+.lk-2 { grid-column: span 4; grid-row: span 3; }
+.lk-3 { grid-column: span 3; grid-row: span 3; }
+.lk-4 { grid-column: span 4; grid-row: span 4; }
+.lk-5 { grid-column: span 3; grid-row: span 4; }
+.lk-6 { grid-column: span 6; grid-row: span 4; }
+.lk-7 { grid-column: span 4; grid-row: span 4; }
+.lk-8 { grid-column: span 8; grid-row: span 4; }
+
+.about { padding: 96px var(--gutter) 0; }
+.about-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; border-bottom: 1px solid var(--line); padding-bottom: 96px; }
+.about-hero h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(56px, 8vw, 140px); letter-spacing: -0.025em; line-height: 0.9; margin: 0; }
+.about-hero h1 em { font-style: italic; }
+.about-hero p { font-size: 16px; line-height: 1.55; max-width: 48ch; color: var(--char); }
+.about-lede { font-family: var(--f-display); font-style: italic; font-size: 28px; line-height: 1.15; letter-spacing: -0.01em; color: var(--ink) !important; margin: 0 0 24px; }
+.about-pillars { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.about-pillars > div { padding: 64px 32px; border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 12px; }
+.about-pillars > div:last-child { border-right: none; }
+.about-pillars .num { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--stone); }
+.about-pillars h3 { font-family: var(--f-display); font-weight: 400; font-style: italic; margin: 0; font-size: 32px; letter-spacing: -0.015em; }
+.about-pillars p { color: var(--char); font-size: 14px; line-height: 1.55; margin: 0; }
+.about-timeline { padding: 96px var(--gutter); }
+.about-timeline h2 { font-family: var(--f-display); font-weight: 400; font-size: 48px; margin: 0 0 48px; letter-spacing: -0.02em; }
+.about-timeline ul { list-style: none; padding: 0; margin: 0; }
+.about-timeline li { display: grid; grid-template-columns: 100px 1fr 1.2fr; gap: 32px; padding: 24px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.about-timeline li:last-child { border-bottom: 1px solid var(--line); }
+.about-timeline .yr { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.18em; }
+.about-timeline .ttl { font-family: var(--f-display); font-style: italic; font-size: 22px; letter-spacing: -0.01em; }
+.about-timeline .desc { color: var(--char); font-size: 14px; }
+
+body.type-modern { --f-display: "Archivo", "Helvetica Neue", sans-serif; --f-sans: "Archivo", "Helvetica Neue", sans-serif; }
+body.type-brutal { --f-display: "Archivo", "Helvetica Neue", sans-serif; --f-sans: "JetBrains Mono", ui-monospace, monospace; }
+body.type-brutal { font-size: 13px; }
+body.pal-mono { --paper: #f5f5f4; --ink: #0a0a0a; --char: #333333; --stone: #737373; --line: rgba(10,10,10,0.12); --line-strong: rgba(10,10,10,0.24); --muted-bg: #e8e8e8; --warm-tint: rgba(0,0,0,0.04); }
+body.pal-sand { --paper: #ebe6dd; --ink: #1f1a14; --char: #3a2f23; --stone: #a68a64; --line: rgba(31,26,20,0.14); --line-strong: rgba(31,26,20,0.28); --muted-bg: #ddd6c8; --warm-tint: rgba(166,138,100,0.1); }
+body.dens-airy { --gutter: 44px; --section: 140px; --row: 80px; }
+body.dens-compact { --gutter: 16px; --section: 56px; --row: 32px; }
+
+@media (max-width: 900px) {
+  .hero-edit { grid-template-columns: 1fr; }
+  .hero-edit-left { padding: 48px var(--gutter); border-right: none; border-bottom: 1px solid var(--line); }
+  .hero-edit-right { min-height: 480px; }
+  .hero-brut-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-drop-stage { grid-template-columns: 1fr; }
+  .hero-drop-stage > div { border-right: none; border-bottom: 1px solid var(--line); }
+  .product-grid { --cols: 2; }
+  .pdp { grid-template-columns: 1fr; }
+  .pdp-gallery { border-right: none; }
+  .pdp-info { position: static; }
+  .lookbook-hero, .about-hero { grid-template-columns: 1fr; gap: 32px; }
+  .about-pillars { grid-template-columns: 1fr; }
+  .about-pillars > div { border-right: none; border-bottom: 1px solid var(--line); }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .edit-strip { grid-template-columns: 1fr; }
+  .edit-strip > div { border-right: none; border-bottom: 1px solid var(--line); }
+  .nav-links { display: none; }
+  .nav-inner { grid-template-columns: auto 1fr; }
+  .wordmark { font-size: 22px; }
+}
+  </style>
 </head>
 <body class="pal-warm type-editorial dens-default">
   <div id="root"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script type="text/babel">
+const { useState, useEffect, useRef } = React;
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+// ── Tweaks Panel ─────────────────────────────────────────────────────────────
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:9999;width:280px;max-height:calc(100vh - 32px);display:flex;flex-direction:column;background:rgba(250,249,247,.92);color:#29261b;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);border:.5px solid rgba(255,255,255,.6);border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.18);font:11.5px/1.4 ui-sans-serif,system-ui,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06)}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+  .twk-field{appearance:none;box-sizing:border-box;width:100%;height:26px;padding:0 8px;border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);transition:left .15s,width .15s}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2}
+  .twk-chips{display:flex;gap:6px}
+  .twk-chip{position:relative;appearance:none;flex:1;height:46px;padding:0;border:0;border-radius:6px;overflow:hidden;cursor:default;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.06)}
+  .twk-chip[data-on="1"]{box-shadow:0 0 0 2px rgba(0,0,0,.85)}
+  .twk-chip>span{position:absolute;top:0;bottom:0;right:0;width:34%;display:flex;flex-direction:column;box-shadow:-1px 0 0 rgba(0,0,0,.1)}
+  .twk-chip>span>i{flex:1}
+  .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+`;
 
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
-  <script type="text/babel" src="data.jsx"></script>
-  <script type="text/babel" src="shared.jsx"></script>
-  <script type="text/babel" src="heroes.jsx"></script>
-  <script type="text/babel" src="pages.jsx"></script>
-  <script type="text/babel" src="app.jsx"></script>
+function useTweaks(defaults) {
+  const [values, setValues] = useState(defaults);
+  const setTweak = React.useCallback((key, val) => {
+    setValues(prev => ({ ...prev, [key]: val }));
+  }, []);
+  return [values, setTweak];
+}
+
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = useState(false);
+  const dragRef = useRef(null);
+  const offsetRef = useRef({ x: 16, y: 16 });
+
+  useEffect(() => {
+    const onMsg = (e) => {
+      if (e?.data?.type === '__activate_edit_mode') setOpen(true);
+      else if (e?.data?.type === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = { x: startRight - (ev.clientX - sx), y: startBottom - (ev.clientY - sy) };
+      panel.style.right = Math.max(16, offsetRef.current.x) + 'px';
+      panel.style.bottom = Math.max(16, offsetRef.current.y) + 'px';
+    };
+    const up = () => { window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel" style={{ right: 16, bottom: 16 }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" onMouseDown={e => e.stopPropagation()} onClick={() => { setOpen(false); window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*'); }}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+function TweakSection({ label }) { return <div className="twk-sect">{label}</div>; }
+function TweakRow({ label, children }) { return <div className="twk-row"><div className="twk-lbl"><span>{label}</span></div>{children}</div>; }
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={e => onChange(e.target.value)}>
+        {options.map(o => { const v = typeof o === 'object' ? o.value : o; const l = typeof o === 'object' ? o.label : o; return <option key={v} value={v}>{l}</option>; })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = useRef(null);
+  const [dragging, setDragging] = useState(false);
+  const valueRef = useRef(value);
+  valueRef.current = value;
+  const opts = options.map(o => typeof o === 'object' ? o : { value: o, label: o });
+  const labelLen = o => String(typeof o === 'object' ? o.label : o).length;
+  const maxLen = options.reduce((m, o) => Math.max(m, labelLen(o)), 0);
+  const fitsAsSegments = maxLen <= ({ 2: 16, 3: 10 }[options.length] ?? 0);
+  if (!fitsAsSegments) return <TweakSelect label={label} value={value} options={options} onChange={v => onChange(v)} />;
+  const idx = Math.max(0, opts.findIndex(o => o.value === value));
+  const n = opts.length;
+  const segAt = x => { const r = trackRef.current.getBoundingClientRect(); const i = Math.floor(((x - r.left - 2) / (r.width - 4)) * n); return opts[Math.max(0, Math.min(n - 1, i))].value; };
+  const onPointerDown = e => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = ev => { const v = segAt(ev.clientX); if (v !== valueRef.current) onChange(v); };
+    const up = () => { setDragging(false); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} className="twk-seg" onPointerDown={onPointerDown}>
+        <div className="twk-seg-thumb" style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`, width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map(o => <button key={o.value} type="button">{o.label}</button>)}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakColor({ label, value, options, onChange }) {
+  const key = o => String(JSON.stringify(o)).toLowerCase();
+  const cur = key(value);
+  const isLight = hex => { const h = String(hex).replace('#', '').padEnd(6, '0'); const n = parseInt(h.slice(0, 6), 16); if (isNaN(n)) return true; return ((n >> 16) & 255) * 299 + ((n >> 8) & 255) * 587 + (n & 255) * 114 > 148000; };
+  return (
+    <TweakRow label={label}>
+      <div className="twk-chips">
+        {options.map((o, i) => {
+          const colors = Array.isArray(o) ? o : [o];
+          const [hero, ...rest] = colors;
+          const on = key(o) === cur;
+          return (
+            <button key={i} type="button" className="twk-chip" data-on={on ? '1' : '0'} style={{ background: hero }} onClick={() => onChange(o)}>
+              {rest.length > 0 && <span>{rest.slice(0, 4).map((c, j) => <i key={j} style={{ background: c }} />)}</span>}
+              {on && <svg viewBox="0 0 14 14"><path d="M3 7.2 5.8 10 11 4.2" fill="none" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" stroke={isLight(hero) ? 'rgba(0,0,0,.78)' : '#fff'} /></svg>}
+            </button>
+          );
+        })}
+      </div>
+    </TweakRow>
+  );
+}
+
+// ── Data ──────────────────────────────────────────────────────────────────────
+const PRODUCTS = [
+  { id: "psn-001", name: "Atelier Hoodie", sub: "Heavyweight 500GSM", silhouette: "Boxed crew", color: "Bone", swatches: ["#e8e2d5", "#0a0a0a", "#5a5a5a"], price: 245, sizes: [{ s: "XS", stock: 0 }, { s: "S", stock: 8 }, { s: "M", stock: 3 }, { s: "L", stock: 12 }, { s: "XL", stock: 5 }, { s: "XXL", stock: 0 }], tag: "NEW", label: "P.HOOD.001 / BONE" },
+  { id: "psn-002", name: "Reverse Quarter-Zip", sub: "Brushed loopback", silhouette: "Half-zip", color: "Ash", swatches: ["#8a8378", "#0a0a0a", "#e8e2d5"], price: 220, sizes: [{ s: "XS", stock: 4 }, { s: "S", stock: 2 }, { s: "M", stock: 0 }, { s: "L", stock: 6 }, { s: "XL", stock: 11 }, { s: "XXL", stock: 3 }], tag: "LOW", label: "P.QZIP.002 / ASH" },
+  { id: "psn-003", name: "Type-01 Hoodie", sub: "Embroidered wordmark", silhouette: "Standard", color: "Coal", swatches: ["#0a0a0a", "#e8e2d5", "#a68a64"], price: 265, sizes: [{ s: "XS", stock: 5 }, { s: "S", stock: 7 }, { s: "M", stock: 4 }, { s: "L", stock: 2 }, { s: "XL", stock: 0 }, { s: "XXL", stock: 0 }], tag: null, label: "P.HOOD.003 / COAL" },
+  { id: "psn-004", name: "Postal Half-Zip", sub: "Garment-dyed", silhouette: "Half-zip", color: "Tobacco", swatches: ["#a68a64", "#0a0a0a", "#e8e2d5"], price: 235, sizes: [{ s: "XS", stock: 3 }, { s: "S", stock: 8 }, { s: "M", stock: 5 }, { s: "L", stock: 4 }, { s: "XL", stock: 7 }, { s: "XXL", stock: 2 }], tag: "NEW", label: "P.QZIP.004 / TOBACCO" },
+  { id: "psn-005", name: "Field Hoodie", sub: "Carbon-washed", silhouette: "Oversized", color: "Carbon", swatches: ["#2b2a27", "#8a8378", "#e8e2d5"], price: 255, sizes: [{ s: "XS", stock: 6 }, { s: "S", stock: 0 }, { s: "M", stock: 9 }, { s: "L", stock: 5 }, { s: "XL", stock: 2 }, { s: "XXL", stock: 1 }], tag: null, label: "P.HOOD.005 / CARBON" },
+  { id: "psn-006", name: "Service Quarter-Zip", sub: "Twin-needle finish", silhouette: "Half-zip", color: "Cream", swatches: ["#f0e9da", "#2b2a27", "#a68a64"], price: 215, sizes: [{ s: "XS", stock: 9 }, { s: "S", stock: 6 }, { s: "M", stock: 8 }, { s: "L", stock: 2 }, { s: "XL", stock: 0 }, { s: "XXL", stock: 4 }], tag: "LOW", label: "P.QZIP.006 / CREAM" },
+];
+
+function stockSummary(p) {
+  const total = p.sizes.reduce((a, b) => a + b.stock, 0);
+  return { total, low: total <= 12 };
+}
+
+// ── Shared Components ─────────────────────────────────────────────────────────
+function Wordmark() {
+  return <div className="wordmark"><em>Pastion</em><sup>PSTN®</sup></div>;
+}
+
+function Placeholder({ label, glyph, silhouette, style }) {
+  return (
+    <div className="ph" style={style}>
+      {silhouette && <div className="silhouette" />}
+      {glyph && <div className="ph-glyph">{glyph}</div>}
+      {label && <div className="ph-label">{label}</div>}
+    </div>
+  );
+}
+
+function NavDropdown({ trigger, columns, isActive, onItemClick }) {
+  const [open, setOpen] = useState(false);
+  const closeTimer = useRef(null);
+  const wrapRef = useRef(null);
+  useEffect(() => {
+    const onDoc = e => { if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, []);
+  return (
+    <div ref={wrapRef} className={"nav-dd " + (open ? "is-open " : "") + (isActive ? "is-active" : "")}
+      onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); setOpen(true); }}
+      onMouseLeave={() => { closeTimer.current = setTimeout(() => setOpen(false), 120); }}>
+      <a className={"nav-link " + (isActive ? "is-active" : "")} href="#" onClick={e => { e.preventDefault(); setOpen(v => !v); }}>
+        {trigger}<span className="nav-caret">+</span>
+      </a>
+      <div className="nav-dd-panel">
+        <div className="nav-dd-inner">
+          {columns.map((col, i) => (
+            <div className="nav-dd-col" key={i}>
+              {col.heading && <div className="nav-dd-head">{col.heading}</div>}
+              <ul>
+                {col.items.map(it => (
+                  <li key={it.label}>
+                    <a href="#" onClick={e => { e.preventDefault(); setOpen(false); if (onItemClick) onItemClick(it); }}>
+                      <span>{it.label}</span>
+                      {it.note && <em className="nav-dd-note">{it.note}</em>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Nav({ page, setPage, cart, openCart }) {
+  const count = cart.reduce((a, b) => a + b.qty, 0);
+  const shopCols = [
+    { heading: "Featured", items: [{ label: "New Arrivals", note: "Drop 02", to: "shop" }, { label: "Best Sellers", note: "Top 06", to: "shop" }, { label: "Restocked", to: "shop" }, { label: "Archive", note: "Past drops", to: "shop" }] },
+    { heading: "Garments", items: [{ label: "Hoodies", note: "04", to: "shop" }, { label: "Quarter-Zips", note: "02", to: "shop" }, { label: "Tees", note: "Forthcoming", to: "shop" }, { label: "Pants", note: "Forthcoming", to: "shop" }, { label: "Outerwear", note: "Forthcoming", to: "shop" }] },
+    { heading: "Shop all", items: [{ label: "View entire collection →", to: "shop" }] },
+  ];
+  const elseCols = [
+    { heading: "My Account", items: [{ label: "Account" }, { label: "Order Status" }, { label: "Returns & Exchanges" }] },
+    { heading: "Help", items: [{ label: "FAQ" }, { label: "Shipping" }, { label: "Contact" }] },
+    { heading: "Community", items: [{ label: "About", to: "about" }, { label: "Discord" }, { label: "Instagram" }] },
+  ];
+  const go = it => { if (it.to) setPage(it.to); };
+  return (
+    <header className="nav">
+      <div className="nav-inner">
+        <nav className="nav-links">
+          <NavDropdown trigger="Shop" columns={shopCols} isActive={page === "shop" || page === "pdp"} onItemClick={go} />
+        </nav>
+        <a href="#" onClick={e => { e.preventDefault(); setPage("home"); }}><Wordmark /></a>
+        <div className="nav-right">
+          <NavDropdown trigger="Everything Else" columns={elseCols} isActive={page === "about"} onItemClick={go} />
+          <a className="nav-link" href="#" onClick={e => e.preventDefault()}>Search</a>
+          <a className="nav-link nav-cart" href="#" onClick={e => { e.preventDefault(); openCart(); }}>Cart <span className="count">{count}</span></a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Footer({ setPage }) {
+  return (
+    <footer className="footer">
+      <div className="footer-inner">
+        <div>
+          <h4>Newsletter — 24h Early Access</h4>
+          <p style={{ maxWidth: "36ch", color: "var(--char)", marginTop: 0 }}>Drops, restocks, and longform editorial. No noise.</p>
+          <div className="newsletter">
+            <input type="email" placeholder="your@email.com" />
+            <button>Subscribe →</button>
+          </div>
+        </div>
+        <div><h4>Shop</h4><ul><li onClick={() => setPage("shop")}>All</li><li onClick={() => setPage("shop")}>Hoodies</li><li onClick={() => setPage("shop")}>Quarter-Zips</li><li onClick={() => setPage("shop")}>Archive</li></ul></div>
+        <div><h4>Studio</h4><ul><li onClick={() => setPage("about")}>About</li><li onClick={() => setPage("lookbook")}>Lookbook</li><li>Journal</li><li>Stockists</li></ul></div>
+        <div><h4>Service</h4><ul><li>Size Guide</li><li>Shipping</li><li>Returns</li><li>Contact</li></ul></div>
+      </div>
+      <div className="footer-display"><em>Pastion</em></div>
+      <div className="footer-base">
+        <span>© PSTN Studio — Est. MMXXIV</span>
+        <span>Vancouver / Worldwide</span>
+        <span>Instagram — TikTok — Discord</span>
+      </div>
+    </footer>
+  );
+}
+
+function CartDrawer({ open, onClose, cart, updateQty, removeItem }) {
+  if (!open) return null;
+  const subtotal = cart.reduce((a, b) => a + b.price * b.qty, 0);
+  return (
+    <>
+      <div className="scrim" onClick={onClose} />
+      <aside className="drawer">
+        <div className="drawer-head"><span>Cart — {cart.reduce((a, b) => a + b.qty, 0)} items</span><button onClick={onClose}>Close ✕</button></div>
+        {cart.length === 0 ? (
+          <div className="drawer-empty">
+            <div className="display"><em>Empty.</em></div>
+            <p style={{ color: "var(--char)", maxWidth: "28ch", margin: 0 }}>Considered purchases, considered carriage. Add a piece to begin.</p>
+            <button className="btn btn-solid" onClick={onClose}>Continue Shopping</button>
+          </div>
+        ) : (
+          <>
+            <div className="drawer-body">
+              {cart.map(item => (
+                <div key={item.lineId} className="drawer-item">
+                  <Placeholder silhouette style={{ aspectRatio: "auto" }} />
+                  <div>
+                    <div className="name">{item.name}</div>
+                    <div className="specs">{item.color} / Size {item.size}</div>
+                    <div className="qty">
+                      <button onClick={() => updateQty(item.lineId, item.qty - 1)}>−</button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => updateQty(item.lineId, item.qty + 1)}>+</button>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="price">${item.price * item.qty}</div>
+                    <a className="remove" href="#" onClick={e => { e.preventDefault(); removeItem(item.lineId); }}>Remove</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="drawer-foot">
+              <div className="row"><span>Subtotal</span><span>${subtotal}</span></div>
+              <div className="row"><span>Shipping</span><span>Calculated at checkout</span></div>
+              <div className="row" style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--line)" }}><span>Total</span><span className="total">${subtotal}</span></div>
+              <button className="btn btn-solid btn-block" style={{ marginTop: 18 }}>Checkout — Secure Payment</button>
+              <p style={{ textAlign: "center", fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--stone)", marginTop: 12 }}>Shop Pay · Apple Pay · Google Pay</p>
+            </div>
+          </>
+        )}
+      </aside>
+    </>
+  );
+}
+
+// ── Heroes ────────────────────────────────────────────────────────────────────
+function HeroEditorial({ goShop }) {
+  return (
+    <section className="hero-edit">
+      <div className="hero-edit-left">
+        <div>
+          <div className="eyebrow" style={{ marginBottom: 28 }}>Drop 02 / Service Issue</div>
+          <h1 className="hero-edit-title">Considered<br />garments for<br /><em>uncommon</em> wear.</h1>
+        </div>
+        <div>
+          <p style={{ maxWidth: "44ch", color: "var(--char)", fontSize: 15, lineHeight: 1.6 }}>A study in heavyweight loopback, brushed interiors, and patient construction. Six pieces. Limited run. Released the 14th of every quarter.</p>
+          <div style={{ display: "flex", gap: 12, marginTop: 28 }}>
+            <button className="btn btn-solid" onClick={goShop}>Shop the Drop →</button>
+            <button className="btn">View Lookbook</button>
+          </div>
+          <dl className="hero-edit-meta">
+            <div><dt>Edition</dt><dd>02 / IV — 2026</dd></div>
+            <div><dt>Pieces</dt><dd>06</dd></div>
+            <div><dt>Made in</dt><dd>Portugal</dd></div>
+            <div><dt>Available</dt><dd>14.06.2026 — 00:00 PT</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div className="hero-edit-right">
+        <div className="hero-tag"><span className="dot" />Live — Drop 02</div>
+        <Placeholder silhouette glyph={<em>02</em>} label="P.HOOD.001 — STUDIO / FRONT / 4:5" />
+      </div>
+    </section>
+  );
+}
+
+function HeroBrutalist({ goShop }) {
+  return (
+    <section className="hero-brut">
+      <div className="hero-brut-title">
+        <div className="row"><span>Pastion</span><span className="hero-brut-sub">Drop 02 / Service Issue<br />Live 14.06.2026 — 00:00 PT</span></div>
+        <div className="row"><span style={{ fontStyle: "italic", fontFamily: "var(--f-display)", fontWeight: 400 }}>since 2024</span><span>PSTN®</span></div>
+      </div>
+      <div className="hero-brut-grid">
+        <div><Placeholder silhouette label="P.HOOD.001 — BONE" /></div>
+        <div><Placeholder silhouette label="P.QZIP.002 — ASH" /></div>
+        <div><Placeholder silhouette label="P.HOOD.003 — COAL" /></div>
+        <div><Placeholder silhouette label="P.QZIP.004 — TOBACCO" /></div>
+      </div>
+      <div className="hero-brut-foot">
+        <span>06 PIECES — HEAVYWEIGHT — MADE IN PORTUGAL</span>
+        <button className="btn btn-solid" onClick={goShop} style={{ padding: "12px 20px" }}>Shop the Drop →</button>
+      </div>
+    </section>
+  );
+}
+
+function HeroDrop({ goShop }) {
+  function diffTo() {
+    const target = new Date();
+    target.setDate(target.getDate() + ((6 - target.getDay() + 7) % 7 || 7));
+    target.setHours(0, 0, 0, 0);
+    const ms = Math.max(0, target - new Date());
+    return { d: Math.floor(ms / 86400000), h: Math.floor(ms % 86400000 / 3600000), m: Math.floor(ms % 3600000 / 60000), s: Math.floor(ms % 60000 / 1000) };
+  }
+  const [t, setT] = useState(diffTo);
+  useEffect(() => { const id = setInterval(() => setT(diffTo()), 1000); return () => clearInterval(id); }, []);
+  const pad = n => String(n).padStart(2, "0");
+  return (
+    <section className="hero-drop">
+      <div className="hero-drop-stage">
+        <div>
+          <div>
+            <div className="eyebrow">Drop 02 · Service</div>
+            <h2 className="display" style={{ fontSize: 64, marginTop: 16, marginBottom: 0 }}><em>Six pieces.</em><br />Quarter-released.</h2>
+          </div>
+          <div className="drop-countdown">
+            <div><div className="unit">{pad(t.d)}</div><div className="lbl">Days</div></div>
+            <div><div className="unit">{pad(t.h)}</div><div className="lbl">Hours</div></div>
+            <div><div className="unit">{pad(t.m)}</div><div className="lbl">Min</div></div>
+            <div><div className="unit">{pad(t.s)}</div><div className="lbl">Sec</div></div>
+          </div>
+        </div>
+        <div className="hero-drop-center"><Placeholder silhouette glyph={<em>02</em>} label="P.HOOD.001 — STUDIO" /></div>
+        <div>
+          <div>
+            <div className="eyebrow">Restock — Sold Out 04.06</div>
+            <p style={{ marginTop: 14, color: "var(--char)", fontSize: 14, lineHeight: 1.55, maxWidth: "30ch" }}>Atelier Hoodie returning in Bone and Coal. Allocation strictly limited.</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <button className="btn btn-solid" onClick={goShop}>Shop the Drop →</button>
+            <button className="btn btn-ghost">Join Members List</button>
+          </div>
+        </div>
+      </div>
+      <div className="hero-drop-marquee">
+        <div className="hero-drop-marquee-track">
+          <span>Pastion</span><span className="acc">/ Service Issue 02 /</span><span><em>uncommon wear</em></span><span className="acc">/ Heavyweight 500GSM /</span><span>Made in Portugal</span><span className="acc">/ 14.06.2026 /</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Pages ─────────────────────────────────────────────────────────────────────
+function ProductCard({ p, onOpen, onQuickAdd }) {
+  return (
+    <article className="card" onClick={() => onOpen(p)}>
+      {p.tag && <div className={"card-tag " + (p.tag === "LOW" ? "low" : "")}>{p.tag === "LOW" ? "Low Stock" : "New"}</div>}
+      <div className="card-media">
+        <Placeholder silhouette label={p.label} />
+        <div className="card-quickadd">
+          <button onClick={e => { e.stopPropagation(); onQuickAdd(p, "M"); }}>+ Add — M</button>
+          <button onClick={e => { e.stopPropagation(); onOpen(p); }}>Quick Look</button>
+        </div>
+      </div>
+      <div className="card-meta">
+        <div><div className="card-title">{p.name}</div><div className="card-sub">{p.sub} · {p.color}</div></div>
+        <div className="card-price">${p.price}</div>
+      </div>
+    </article>
+  );
+}
+
+function Home({ setPage, openProduct, addToCart, heroVariant }) {
+  const goShop = () => setPage("shop");
+  return (
+    <div>
+      {heroVariant === "editorial" && <HeroEditorial goShop={goShop} />}
+      {heroVariant === "brutalist" && <HeroBrutalist goShop={goShop} />}
+      {heroVariant === "drop" && <HeroDrop goShop={goShop} />}
+      <div className="section-head"><span className="left">Index / 06 pieces</span><h2>The <em>drop</em></h2><span className="right">Service Issue — 02</span></div>
+      <div className="product-grid" style={{ "--cols": 3 }}>
+        {PRODUCTS.map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
+      </div>
+      <div className="section-head"><span className="left">Editorial / 02</span><h2><em>Field</em> notes</h2><span className="right">Studio + Process</span></div>
+      <div className="edit-strip">
+        <div>
+          <Placeholder label="LK.002 — STUDIO / 4:5" />
+          <div className="eyebrow">Process — 04.2026</div>
+          <h3>500GSM, twin-needle, garment-dyed.</h3>
+          <p>Sixteen weeks from sketch to seam. The weight tells you everything you need to know — pick one up.</p>
+          <button className="btn" style={{ alignSelf: "flex-start" }}>Read the field note →</button>
+        </div>
+        <div>
+          <Placeholder silhouette label="LK.005 — LOCATION / 4:5" />
+          <div className="eyebrow">Lookbook — Service Issue</div>
+          <h3>Garments for routine, weather, repair.</h3>
+          <p>Photographed in late February near the studio. Pieces shown on Léon and Marie; sized true to label.</p>
+          <button className="btn" style={{ alignSelf: "flex-start" }} onClick={() => setPage("lookbook")}>View the lookbook →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Shop({ openProduct, addToCart }) {
+  const [filter, setFilter] = useState("all");
+  const filtered = PRODUCTS.filter(p => filter === "all" || (filter === "hoodies" ? p.silhouette !== "Half-zip" : p.silhouette === "Half-zip"));
+  return (
+    <div>
+      <div className="plp-head">
+        <div><div className="eyebrow" style={{ marginBottom: 14 }}>Shop / Drop 02</div><h1>The <em>collection</em></h1></div>
+        <div className="plp-filters">
+          <span style={{ color: "var(--char)" }}>Filter:</span>
+          <span className={"chip " + (filter === "all" ? "is-on" : "")} onClick={() => setFilter("all")}>All — {PRODUCTS.length}</span>
+          <span className={"chip " + (filter === "hoodies" ? "is-on" : "")} onClick={() => setFilter("hoodies")}>Hoodies</span>
+          <span className={"chip " + (filter === "qzips" ? "is-on" : "")} onClick={() => setFilter("qzips")}>Quarter-Zips</span>
+        </div>
+      </div>
+      <div className="product-grid" style={{ "--cols": 3 }}>
+        {filtered.map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
+      </div>
+    </div>
+  );
+}
+
+function SizeGuideModal({ onClose }) {
+  return (
+    <div className="modal" onClick={onClose}>
+      <div className="modal-card" onClick={e => e.stopPropagation()}>
+        <button className="close" onClick={onClose}>✕</button>
+        <div className="eyebrow" style={{ marginBottom: 6 }}>Reference — Hoodies & Quarter-Zips</div>
+        <h3><em>Size guide.</em></h3>
+        <p style={{ color: "var(--char)", fontSize: 14, lineHeight: 1.55 }}>Measurements taken flat. Pastion pieces are cut for a boxed, relaxed fit.</p>
+        <table className="size-table">
+          <thead><tr><th>Size</th><th>Chest (cm)</th><th>Length (cm)</th><th>Sleeve (cm)</th><th>Shoulder (cm)</th></tr></thead>
+          <tbody>
+            {[["XS",104,66,62,52],["S",110,68,63,54],["M",116,70,64,56],["L",122,72,65,58],["XL",128,74,66,60],["XXL",134,76,67,62]].map(([s,...m]) => (
+              <tr key={s}><td>{s}</td>{m.map((v,i) => <td key={i}>{v}</td>)}</tr>
+            ))}
+          </tbody>
+        </table>
+        <p style={{ fontFamily: "var(--f-mono)", fontSize: 11, color: "var(--stone)", marginTop: 18 }}>Model wears M / 184cm / 78kg</p>
+      </div>
+    </div>
+  );
+}
+
+function PDP({ product, addToCart, goBack }) {
+  const [size, setSize] = useState(null);
+  const [colorIdx, setColorIdx] = useState(0);
+  const [showGuide, setShowGuide] = useState(false);
+  const sel = product.sizes.find(x => x.s === size);
+  const lowStock = sel && sel.stock > 0 && sel.stock <= 4;
+  const oos = sel && sel.stock === 0;
+  return (
+    <div>
+      <div style={{ display: "flex", gap: 16, padding: "20px var(--gutter)", fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--char)" }}>
+        <a href="#" onClick={e => { e.preventDefault(); goBack(); }}>← Shop</a><span>/</span>
+        <span>{product.silhouette === "Half-zip" ? "Quarter-Zips" : "Hoodies"}</span><span>/</span>
+        <span style={{ color: "var(--ink)" }}>{product.name}</span>
+      </div>
+      <div className="pdp">
+        <div className="pdp-gallery">
+          <Placeholder silhouette label={`${product.label} — FRONT`} />
+          <Placeholder silhouette label={`${product.label} — BACK`} />
+          <Placeholder label={`${product.label} — DETAIL`} />
+          <Placeholder silhouette label={`${product.label} — ON BODY`} />
+        </div>
+        <div className="pdp-info">
+          <div>
+            <div className="eyebrow">{product.label}</div>
+            <h1 className="pdp-title" style={{ marginTop: 8 }}>{product.name.split(" ").slice(0,-1).join(" ")} <em>{product.name.split(" ").slice(-1)[0]}</em></h1>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 14 }}>
+              <span className="pdp-price">${product.price} USD</span>
+              <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: "var(--char)" }}>4 interest-free of ${Math.round(product.price / 4)}</span>
+            </div>
+          </div>
+          <div className="pdp-section">
+            <h4><span>Color — {product.color}</span></h4>
+            <div className="color-row">
+              {product.swatches.map((c, i) => <span key={i} className={"swatch " + (colorIdx === i ? "is-on" : "")} style={{ background: c }} onClick={() => setColorIdx(i)} />)}
+            </div>
+          </div>
+          <div className="pdp-section">
+            <h4><span>Size {size && `— ${size}`}</span><button onClick={() => setShowGuide(true)}>Size Guide ↗</button></h4>
+            <div className="size-row">
+              {product.sizes.map(sz => (
+                <button key={sz.s} className={"size-btn " + (size === sz.s ? "is-on " : "") + (sz.stock === 0 ? "is-oos" : "")} onClick={() => sz.stock > 0 && setSize(sz.s)} disabled={sz.stock === 0}>{sz.s}</button>
+              ))}
+            </div>
+            {sel && (
+              <div className={"pdp-stock " + (lowStock ? "low" : "")} style={{ marginTop: 14 }}>
+                <div className="bar"><i style={{ width: `${Math.min(100, sel.stock * 8)}%` }} /></div>
+                <span>{oos ? "Sold out" : lowStock ? `Only ${sel.stock} left` : "In stock"}</span>
+              </div>
+            )}
+          </div>
+          <button className="btn btn-solid btn-block" onClick={() => { if (!size) { alert("Please select a size."); return; } if (!oos) addToCart(product, size); }}>
+            {oos ? "Sold Out — Notify Me" : `Add to Cart — $${product.price}`}
+          </button>
+          <div>
+            <details className="accordion" open><summary><span>Description</span><span className="sym">+</span></summary><div className="body"><p>The {product.name} is constructed from 500GSM brushed loopback cotton, garment-dyed for a softened hand and a deep saturation that wears in slowly.</p></div></details>
+            <details className="accordion"><summary><span>Composition & Care</span><span className="sym">+</span></summary><div className="body"><dl className="spec-row"><dt>Composition</dt><dd>100% Organic Cotton</dd><dt>Weight</dt><dd>500 GSM</dd><dt>Construction</dt><dd>Loopback, brushed</dd><dt>Care</dt><dd>30°C — Inside out</dd><dt>Origin</dt><dd>Made in Portugal</dd></dl></div></details>
+            <details className="accordion"><summary><span>Shipping & Returns</span><span className="sym">+</span></summary><div className="body"><p>Complimentary worldwide shipping on orders over $200. 30-day returns on unworn items.</p></div></details>
+          </div>
+        </div>
+      </div>
+      {showGuide && <SizeGuideModal onClose={() => setShowGuide(false)} />}
+    </div>
+  );
+}
+
+function Lookbook() {
+  return (
+    <div>
+      <div className="lookbook-hero">
+        <h1>Service<br /><em>Issue.</em></h1>
+        <div>
+          <div className="eyebrow" style={{ marginBottom: 16 }}>Lookbook / Drop 02 — Spring 2026</div>
+          <p style={{ fontSize: 16, lineHeight: 1.6, color: "var(--char)", maxWidth: "44ch" }}>Photographed over three days in late February. Léon and Marie wear the full edition across the studio, the laundromat, and a deserted lot south of the river.</p>
+          <div style={{ marginTop: 24, fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--char)" }}>Photography — Adèle Marin<br />Styling — Pastion Studio<br />Location — Lisbon, PT</div>
+        </div>
+      </div>
+      <div className="lookbook-grid">
+        <div className="lk-1"><Placeholder silhouette label="LK.01" /><div className="lk-caption">P.HOOD.001 — BONE</div></div>
+        <div className="lk-2"><Placeholder label="LK.02" /><div className="lk-caption">Detail — Loopback</div></div>
+        <div className="lk-3"><Placeholder silhouette label="LK.03" /><div className="lk-caption">P.QZIP.002 — ASH</div></div>
+        <div className="lk-4"><Placeholder silhouette label="LK.04" /><div className="lk-caption">P.HOOD.003 — COAL</div></div>
+        <div className="lk-5"><Placeholder label="LK.05" /><div className="lk-caption">Studio — Composition</div></div>
+        <div className="lk-6"><Placeholder silhouette label="LK.06" /><div className="lk-caption">P.QZIP.004 — TOBACCO</div></div>
+        <div className="lk-7"><Placeholder silhouette label="LK.07" /><div className="lk-caption">P.HOOD.005 — CARBON</div></div>
+        <div className="lk-8"><Placeholder silhouette label="LK.08" /><div className="lk-caption">Full edition — Group</div></div>
+      </div>
+      <div className="section-head"><span className="left">Index — 08 frames</span><h2>Shop the <em>edition</em></h2><span className="right">All 06 pieces available</span></div>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div className="about">
+      <div className="about-hero">
+        <div><div className="eyebrow" style={{ marginBottom: 18 }}>About — Pastion Studio</div><h1>Slow garments<br />for <em>everyday</em><br />practice.</h1></div>
+        <div>
+          <p className="about-lede">Pastion is a small studio working between streetwear and ready-to-wear — considered hoodies and quarter-zips, made quarterly in limited editions.</p>
+          <p>We started Pastion in 2024 with a single question: what would it look like to make the basics we couldn't find anywhere — heavy, honest, intentional pieces sized for real bodies and built to outlast a season.</p>
+          <p>No prints. No logos pasted on. The only branding is a small embroidered wordmark at the cuff and the weight of the cloth in your hand.</p>
+        </div>
+      </div>
+      <div className="about-pillars">
+        <div><span className="num">01</span><h3>Made <em>slowly</em>.</h3><p>Each drop takes sixteen weeks from sketch to seam. Single mill, single dye-house, no rushed lots.</p></div>
+        <div><span className="num">02</span><h3>Made <em>well</em>.</h3><p>500 GSM brushed loopback, twin-needle construction, reinforced cuffs and hems.</p></div>
+        <div><span className="num">03</span><h3>Made <em>once</em>.</h3><p>Six pieces per drop. Limited allocation. When it's gone, it's gone.</p></div>
+      </div>
+      <div className="about-timeline">
+        <h2>The <em>record.</em></h2>
+        <ul>
+          <li><span className="yr">2024 / 03</span><span className="ttl"><em>Founding</em></span><span className="desc">Pastion Studio incorporated. First samples cut in a borrowed Vancouver workshop.</span></li>
+          <li><span className="yr">2024 / 09</span><span className="ttl">Drop 01 — <em>First Issue</em></span><span className="desc">Three hoodies, two quarter-zips, one tee. Sold through in eleven days.</span></li>
+          <li><span className="yr">2025 / 02</span><span className="ttl">Porto <em>partnership</em></span><span className="desc">Long-term agreement with our mill. Move to 100% Portuguese construction.</span></li>
+          <li><span className="yr">2025 / 11</span><span className="ttl">Drop 04 — <em>Cold Issue</em></span><span className="desc">Heavyweight winter capsule. First piece in our permanent archive: the Atelier Hoodie.</span></li>
+          <li><span className="yr">2026 / 06</span><span className="ttl">Drop 02 — <em>Service Issue</em></span><span className="desc">Releasing 14 June. Six pieces. The drop you're looking at now.</span></li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// ── App ───────────────────────────────────────────────────────────────────────
+const PALETTE_OPTIONS = [["#ffffff", "#0a0a0a", "#888888"], ["#f5f5f4", "#0a0a0a", "#737373"], ["#ebe6dd", "#1f1a14", "#a68a64"]];
+const PALETTE_KEYS = ["warm", "mono", "sand"];
+
+function applyTheme(t) {
+  const b = document.body;
+  b.classList.remove("pal-warm","pal-mono","pal-sand"); b.classList.add("pal-" + t.palette);
+  b.classList.remove("type-editorial","type-modern","type-brutal"); b.classList.add("type-" + t.typePair);
+  b.classList.remove("dens-default","dens-airy","dens-compact"); b.classList.add("dens-" + t.density);
+}
+
+function App() {
+  const [tweaks, setTweak] = useTweaks({ heroVariant: "editorial", palette: "warm", typePair: "editorial", density: "default" });
+  const [page, setPage] = useState("home");
+  const [activeProduct, setActiveProduct] = useState(null);
+  const [cart, setCart] = useState([{ lineId: "L1", id: "psn-001", name: "Atelier Hoodie", color: "Bone", size: "M", price: 245, qty: 1 }]);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  useEffect(() => { applyTheme(tweaks); }, [tweaks.palette, tweaks.typePair, tweaks.density]);
+  useEffect(() => { window.scrollTo({ top: 0, behavior: "instant" }); }, [page]);
+
+  function addToCart(p, size = "M") {
+    setCart(prev => {
+      const ex = prev.find(x => x.id === p.id && x.size === size);
+      if (ex) return prev.map(x => x === ex ? { ...x, qty: x.qty + 1 } : x);
+      return [...prev, { lineId: "L" + Date.now(), id: p.id, name: p.name, color: p.color, size, price: p.price, qty: 1 }];
+    });
+    setCartOpen(true);
+  }
+
+  function renderPage() {
+    if (page === "home") return <Home setPage={setPage} openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} heroVariant={tweaks.heroVariant} />;
+    if (page === "shop") return <Shop openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} />;
+    if (page === "pdp" && activeProduct) return <PDP product={activeProduct} addToCart={addToCart} goBack={() => setPage("shop")} />;
+    if (page === "lookbook") return <Lookbook />;
+    if (page === "about") return <About />;
+    return null;
+  }
+
+  const palIdx = PALETTE_KEYS.indexOf(tweaks.palette);
+  const palValue = PALETTE_OPTIONS[palIdx >= 0 ? palIdx : 0];
+
+  return (
+    <div>
+      <Nav page={page} setPage={setPage} cart={cart} openCart={() => setCartOpen(true)} />
+      <main>{renderPage()}</main>
+      <Footer setPage={setPage} />
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart}
+        updateQty={(id, qty) => qty < 1 ? setCart(p => p.filter(x => x.lineId !== id)) : setCart(p => p.map(x => x.lineId === id ? { ...x, qty } : x))}
+        removeItem={id => setCart(p => p.filter(x => x.lineId !== id))} />
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Hero Variant" />
+        <TweakRadio label="Layout" value={tweaks.heroVariant} onChange={v => { setTweak("heroVariant", v); if (page !== "home") setPage("home"); }}
+          options={[{ value: "editorial", label: "Editorial" }, { value: "brutalist", label: "Grid" }, { value: "drop", label: "Drop" }]} />
+        <TweakSection label="Palette" />
+        <TweakColor label="Surface" value={palValue} options={PALETTE_OPTIONS}
+          onChange={v => { const i = PALETTE_OPTIONS.findIndex(a => JSON.stringify(a) === JSON.stringify(v)); if (i >= 0) setTweak("palette", PALETTE_KEYS[i]); }} />
+        <TweakSection label="Typography" />
+        <TweakRadio label="Pairing" value={tweaks.typePair} onChange={v => setTweak("typePair", v)}
+          options={[{ value: "editorial", label: "Editorial" }, { value: "modern", label: "Modern" }, { value: "brutal", label: "Brutal" }]} />
+        <TweakSection label="Density" />
+        <TweakRadio label="Spacing" value={tweaks.density} onChange={v => setTweak("density", v)}
+          options={[{ value: "airy", label: "Airy" }, { value: "default", label: "Default" }, { value: "compact", label: "Compact" }]} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
 </body>
 </html>
