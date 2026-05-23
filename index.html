@@ -513,8 +513,8 @@ function NavDropdown({ trigger, columns, isActive, onItemClick }) {
 function Nav({ page, setPage, cart, openCart }) {
   const count = cart.reduce((a, b) => a + b.qty, 0);
   const shopCols = [
-    { heading: "Featured", items: [{ label: "New Arrivals", note: "Drop 02", to: "shop" }, { label: "Best Sellers", note: "Top 06", to: "shop" }, { label: "Restocked", to: "shop" }, { label: "Archive", note: "Past drops", to: "shop" }] },
-    { heading: "Garments", items: [{ label: "Hoodies", note: "04", to: "shop" }, { label: "Quarter-Zips", note: "02", to: "shop" }, { label: "Tees", note: "Forthcoming", to: "shop" }, { label: "Pants", note: "Forthcoming", to: "shop" }, { label: "Outerwear", note: "Forthcoming", to: "shop" }] },
+    { heading: "Featured", items: [{ label: "New Arrivals", note: "Drop 02", to: "shop" }, { label: "Best Sellers", note: "Top 06", to: "shop" }] },
+    { heading: "Shop", items: [{ label: "Hoodies", to: "shop" }, { label: "Quarter-Zips", to: "shop" }, { label: "Tees", to: "shop" }, { label: "Tops", to: "shop" }, { label: "Bottoms", to: "shop" }, { label: "Small Goods", to: "shop" }] },
     { heading: "Shop all", items: [{ label: "View entire collection →", to: "shop" }] },
   ];
   const elseCols = [
