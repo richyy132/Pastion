@@ -748,33 +748,25 @@ function ProductCard({ p, onOpen, onQuickAdd }) {
   );
 }
 
-function Home({ setPage, openProduct, addToCart, heroVariant }) {
-  const goShop = () => setPage("shop");
+function Home({ setPage }) {
   return (
-    <div>
-      {heroVariant === "editorial" && <HeroEditorial goShop={goShop} />}
-      {heroVariant === "brutalist" && <HeroBrutalist goShop={goShop} />}
-      {heroVariant === "drop" && <HeroDrop goShop={goShop} />}
-      <div className="section-head"><span className="left">Index / 06 pieces</span><h2>The <em>drop</em></h2><span className="right">Service Issue — 02</span></div>
-      <div className="product-grid" style={{ "--cols": 3 }}>
-        {PRODUCTS.map(p => <ProductCard key={p.id} p={p} onOpen={openProduct} onQuickAdd={addToCart} />)}
+    <div style={{ position: "relative", height: "calc(100vh - 61px)", overflow: "hidden" }}>
+      <div className="ph" style={{ width: "100%", height: "100%" }}>
+        <div className="silhouette" />
       </div>
-      <div className="section-head"><span className="left">Editorial / 02</span><h2><em>Field</em> notes</h2><span className="right">Studio + Process</span></div>
-      <div className="edit-strip">
-        <div>
-          <Placeholder label="LK.002 — STUDIO / 4:5" />
-          <div className="eyebrow">Process — 04.2026</div>
-          <h3>500GSM, twin-needle, garment-dyed.</h3>
-          <p>Sixteen weeks from sketch to seam. The weight tells you everything you need to know — pick one up.</p>
-          <button className="btn" style={{ alignSelf: "flex-start" }}>Read the field note →</button>
-        </div>
-        <div>
-          <Placeholder silhouette label="LK.005 — LOCATION / 4:5" />
-          <div className="eyebrow">Lookbook — Service Issue</div>
-          <h3>Garments for routine, weather, repair.</h3>
-          <p>Photographed in late February near the studio. Pieces shown on Léon and Marie; sized true to label.</p>
-          <button className="btn" style={{ alignSelf: "flex-start" }} onClick={() => setPage("lookbook")}>View the lookbook →</button>
-        </div>
+      <div style={{
+        position: "absolute", inset: 0,
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "flex-end",
+        paddingBottom: "10vh",
+      }}>
+        <button
+          className="btn btn-solid"
+          style={{ fontSize: 13, letterSpacing: "0.22em", padding: "18px 48px" }}
+          onClick={() => setPage("shop")}
+        >
+          Shop Now
+        </button>
       </div>
     </div>
   );
