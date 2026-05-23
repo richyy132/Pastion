@@ -138,18 +138,6 @@ hr { border: none; border-top: 1px solid var(--line); margin: 0; }
 .card-tag { position: absolute; top: 24px; left: 24px; z-index: 2; font-family: var(--f-mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 8px; background: var(--paper); border: 1px solid var(--ink); }
 .card-tag.low { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 
-.footer { margin-top: var(--section); border-top: 1px solid var(--line); padding: 56px var(--gutter) 28px; }
-.footer-inner { display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 48px; padding-bottom: 56px; }
-.footer h4 { margin: 0 0 16px; font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--char); font-weight: 400; }
-.footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
-.footer ul li { cursor: pointer; }
-.footer ul li:hover { color: var(--char); }
-.footer-display { font-family: var(--f-display); font-style: italic; font-size: clamp(72px, 12vw, 220px); line-height: 0.85; letter-spacing: -0.025em; padding: 28px 0 16px; border-top: 1px solid var(--line); }
-.footer-base { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--line); font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--char); }
-.newsletter { display: flex; gap: 0; border-bottom: 1px solid var(--ink); padding-bottom: 8px; }
-.newsletter input { flex: 1; border: none; background: transparent; font-family: var(--f-sans); font-size: 14px; padding: 6px 0; outline: none; color: var(--ink); }
-.newsletter input::placeholder { color: var(--stone); }
-.newsletter button { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; }
 
 .edit-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .edit-strip > div { padding: 56px var(--gutter); border-right: 1px solid var(--line); display: flex; flex-direction: column; gap: 24px; }
@@ -288,8 +276,7 @@ body.dens-compact { --gutter: 16px; --section: 56px; --row: 32px; }
   .lookbook-hero, .about-hero { grid-template-columns: 1fr; gap: 32px; }
   .about-pillars { grid-template-columns: 1fr; }
   .about-pillars > div { border-right: none; border-bottom: 1px solid var(--line); }
-  .footer-inner { grid-template-columns: 1fr 1fr; }
-  .edit-strip { grid-template-columns: 1fr; }
+.edit-strip { grid-template-columns: 1fr; }
   .edit-strip > div { border-right: none; border-bottom: 1px solid var(--line); }
   .nav-links { display: none; }
   .nav-inner { grid-template-columns: auto 1fr; }
@@ -553,26 +540,15 @@ function Nav({ page, setPage, cart, openCart }) {
   );
 }
 
-function Footer({ setPage }) {
+function Footer() {
   return (
-    <footer className="footer">
-      <div className="footer-inner">
-        <div>
-          <h4>Newsletter — 24h Early Access</h4>
-          <p style={{ maxWidth: "36ch", color: "var(--char)", marginTop: 0 }}>Drops, restocks, and longform editorial. No noise.</p>
-          <div className="newsletter">
-            <input type="email" placeholder="your@email.com" />
-            <button>Subscribe →</button>
-          </div>
-        </div>
-        <div><h4>Shop</h4><ul><li onClick={() => setPage("shop")}>All</li><li onClick={() => setPage("shop")}>Hoodies</li><li onClick={() => setPage("shop")}>Quarter-Zips</li><li onClick={() => setPage("shop")}>Archive</li></ul></div>
-        <div><h4>Studio</h4><ul><li onClick={() => setPage("about")}>About</li><li onClick={() => setPage("lookbook")}>Lookbook</li><li>Journal</li><li>Stockists</li></ul></div>
-        <div><h4>Service</h4><ul><li>Size Guide</li><li>Shipping</li><li>Returns</li><li>Contact</li></ul></div>
-      </div>
-      <div className="footer-base">
-        <span>© PSTN Studio — Est. MMXXIV</span>
-        <span>Instagram — TikTok — Discord</span>
-      </div>
+    <footer style={{ borderTop: "1px solid var(--line)", padding: "24px var(--gutter)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+      <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--char)" }}>© PSTN Studio — Est. MMXXIV</span>
+      <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+        {["Privacy Policy", "Shipping Policy", "Refund Policy", "Terms of Service"].map(label => (
+          <a key={label} href="#" onClick={e => e.preventDefault()} style={{ fontFamily: "var(--f-mono)", fontSize: 10, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--char)" }}>{label}</a>
+        ))}
+      </nav>
     </footer>
   );
 }
