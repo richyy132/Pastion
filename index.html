@@ -517,8 +517,7 @@ function Nav({ page, setPage, cart, openCart }) {
     { heading: "Shop", items: [{ label: "Tees", to: "shop" }, { label: "Tops", to: "shop" }, { label: "Bottoms", to: "shop" }, { label: "Small Goods", to: "shop" }] },
   ];
   const elseCols = [
-    { heading: "My Account", items: [{ label: "Account" }, { label: "Order Status" }, { label: "Returns & Exchanges" }] },
-    { heading: "Help", items: [{ label: "FAQ" }, { label: "Shipping" }, { label: "Contact" }] },
+    { heading: "General", items: [{ label: "Account" }, { label: "FAQ", to: "faq" }, { label: "Contact", to: "contact" }] },
     { heading: "Community", items: [{ label: "About", to: "about" }, { label: "Discord" }, { label: "Instagram" }] },
   ];
   const go = it => { if (it.to) setPage(it.to); };
@@ -539,9 +538,15 @@ function Nav({ page, setPage, cart, openCart }) {
   );
 }
 
-function Footer() {
+function Footer({ setPage }) {
   const colHead = { margin: "0 0 18px", fontFamily: "var(--f-sans)", fontSize: 13, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "var(--ink)" };
   const link = { display: "block", marginBottom: 10, fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", cursor: "pointer" };
+  const policyLinks = [
+    { label: "Shipping Policy", page: "shipping-policy" },
+    { label: "Terms of Service", page: "terms-of-service" },
+    { label: "Privacy Policy", page: "privacy-policy" },
+    { label: "Refund Policy", page: "refund-policy" },
+  ];
   return (
     <footer style={{ borderTop: "1px solid var(--line)", padding: "48px var(--gutter) 32px" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "32px", alignItems: "start", maxWidth: "860px" }}>
@@ -552,7 +557,7 @@ function Footer() {
             <button style={{ fontFamily: "var(--f-sans)", fontSize: 16, color: "var(--ink)", background: "none", border: "none", cursor: "pointer" }}>→</button>
           </div>
           <p style={{ margin: 0, fontSize: 12, color: "var(--stone)" }}>
-            By subscribing you agree to the <a href="#" onClick={e => e.preventDefault()} style={{ color: "var(--stone)", textDecoration: "underline" }}>Terms of Use</a> &amp; <a href="#" onClick={e => e.preventDefault()} style={{ color: "var(--stone)", textDecoration: "underline" }}>Privacy Policy</a>.
+            By subscribing you agree to the <a href="#" onClick={e => { e.preventDefault(); setPage("terms-of-service"); }} style={{ color: "var(--stone)", textDecoration: "underline" }}>Terms of Use</a> &amp; <a href="#" onClick={e => { e.preventDefault(); setPage("privacy-policy"); }} style={{ color: "var(--stone)", textDecoration: "underline" }}>Privacy Policy</a>.
           </p>
         </div>
 
@@ -565,8 +570,8 @@ function Footer() {
 
         <div>
           <h4 style={colHead}>Terms &amp; Conditions</h4>
-          {["Shipping Policy", "Terms of Service", "Privacy Policy", "Refund Policy"].map(s => (
-            <a key={s} href="#" onClick={e => e.preventDefault()} style={link}>{s}</a>
+          {policyLinks.map(({ label, page }) => (
+            <a key={label} href="#" onClick={e => { e.preventDefault(); setPage(page); }} style={link}>{label}</a>
           ))}
         </div>
       </div>
@@ -990,6 +995,79 @@ function applyTheme(t) {
   b.classList.remove("dens-default","dens-airy","dens-compact"); b.classList.add("dens-" + t.density);
 }
 
+function PolicyPage({ title, children }) {
+  return (
+    <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px var(--gutter) 120px" }}>
+      <h1 style={{ fontFamily: "var(--f-display)", fontWeight: 800, fontSize: "clamp(36px, 5vw, 64px)", letterSpacing: "-0.04em", margin: "0 0 48px" }}>{title}</h1>
+      <div style={{ fontFamily: "var(--f-sans)", fontSize: 15, lineHeight: 1.7, color: "var(--char)", display: "flex", flexDirection: "column", gap: 24 }}>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function PrivacyPolicy() {
+  return (
+    <PolicyPage title="Privacy Policy">
+      <p>Last updated: June 2026</p>
+      <p>At Pastion, we are committed to protecting your personal information and your right to privacy. This policy outlines what information we collect, how we use it, and what rights you have in relation to it.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Information We Collect</h3>
+      <p>We collect information you provide when placing an order, creating an account, or signing up for our newsletter. This includes your name, email address, shipping address, and payment information.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>How We Use Your Information</h3>
+      <p>We use your information to fulfil orders, communicate with you about your purchases, and send marketing communications where you have opted in. We do not sell your personal data to third parties.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Your Rights</h3>
+      <p>You have the right to access, correct, or delete your personal data at any time. To make a request, contact us at privacy@pastion.com.</p>
+    </PolicyPage>
+  );
+}
+
+function ShippingPolicy() {
+  return (
+    <PolicyPage title="Shipping Policy">
+      <p>Last updated: June 2026</p>
+      <p>All orders are processed within 2–3 business days. Orders are not shipped or delivered on weekends or public holidays.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Domestic Shipping</h3>
+      <p>Standard shipping within Canada and the United States takes 3–5 business days. Complimentary shipping is available on all orders over $200.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>International Shipping</h3>
+      <p>International orders typically arrive within 7–14 business days depending on destination and customs processing. Import duties and taxes are the responsibility of the customer.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Tracking</h3>
+      <p>A tracking number will be emailed to you once your order has shipped. If you have not received your order within the estimated timeframe, contact us at orders@pastion.com.</p>
+    </PolicyPage>
+  );
+}
+
+function RefundPolicy() {
+  return (
+    <PolicyPage title="Refund Policy">
+      <p>Last updated: June 2026</p>
+      <p>We want you to love your Pastion pieces. If something isn't right, we're here to help.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Returns</h3>
+      <p>Items may be returned within 30 days of delivery, provided they are unworn, unwashed, and in original condition with all tags attached. Sale items and limited-edition drop pieces are final sale.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>How to Return</h3>
+      <p>Initiate a return via your account portal or by emailing returns@pastion.com with your order number. We will provide a return shipping label within 1–2 business days.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Refunds</h3>
+      <p>Once your return is received and inspected, your refund will be processed to the original payment method within 5–7 business days.</p>
+    </PolicyPage>
+  );
+}
+
+function TermsOfService() {
+  return (
+    <PolicyPage title="Terms of Service">
+      <p>Last updated: June 2026</p>
+      <p>By accessing or using the Pastion website, you agree to be bound by these terms. Please read them carefully.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Use of the Site</h3>
+      <p>You may use this site for lawful purposes only. You agree not to use the site in any way that violates applicable laws or regulations, or that could harm or damage Pastion or its users.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Intellectual Property</h3>
+      <p>All content on this site — including but not limited to text, images, graphics, and branding — is the property of Pastion Studio and may not be reproduced without written permission.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Limitation of Liability</h3>
+      <p>Pastion shall not be liable for any indirect, incidental, or consequential damages arising from your use of the site or products purchased through it.</p>
+      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Changes to Terms</h3>
+      <p>We reserve the right to update these terms at any time. Continued use of the site following any changes constitutes acceptance of the new terms.</p>
+    </PolicyPage>
+  );
+}
+
 function App() {
   const [tweaks, setTweak] = useTweaks({ heroVariant: "editorial", palette: "warm", typePair: "editorial", density: "default" });
   const [page, setPage] = useState("home");
@@ -1015,6 +1093,10 @@ function App() {
     if (page === "pdp" && activeProduct) return <PDP product={activeProduct} addToCart={addToCart} goBack={() => setPage("shop")} />;
     if (page === "lookbook") return <Lookbook />;
     if (page === "about") return <About />;
+    if (page === "privacy-policy") return <PrivacyPolicy />;
+    if (page === "shipping-policy") return <ShippingPolicy />;
+    if (page === "refund-policy") return <RefundPolicy />;
+    if (page === "terms-of-service") return <TermsOfService />;
     return null;
   }
 
