@@ -443,12 +443,20 @@ function TweakColor({ label, value, options, onChange }) {
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const PRODUCTS = [
-  { id: "psn-001", name: "Atelier Hoodie", sub: "Heavyweight 500GSM", silhouette: "Boxed crew", color: "Bone", swatches: ["#e8e2d5", "#0a0a0a", "#5a5a5a"], price: 245, sizes: [{ s: "XS", stock: 0 }, { s: "S", stock: 8 }, { s: "M", stock: 3 }, { s: "L", stock: 12 }, { s: "XL", stock: 5 }, { s: "XXL", stock: 0 }], tag: "NEW", label: "P.HOOD.001 / BONE" },
-  { id: "psn-002", name: "Reverse Quarter-Zip", sub: "Brushed loopback", silhouette: "Half-zip", color: "Ash", swatches: ["#8a8378", "#0a0a0a", "#e8e2d5"], price: 220, sizes: [{ s: "XS", stock: 4 }, { s: "S", stock: 2 }, { s: "M", stock: 0 }, { s: "L", stock: 6 }, { s: "XL", stock: 11 }, { s: "XXL", stock: 3 }], tag: "LOW", label: "P.QZIP.002 / ASH" },
-  { id: "psn-003", name: "Type-01 Hoodie", sub: "Embroidered wordmark", silhouette: "Standard", color: "Coal", swatches: ["#0a0a0a", "#e8e2d5", "#a68a64"], price: 265, sizes: [{ s: "XS", stock: 5 }, { s: "S", stock: 7 }, { s: "M", stock: 4 }, { s: "L", stock: 2 }, { s: "XL", stock: 0 }, { s: "XXL", stock: 0 }], tag: null, label: "P.HOOD.003 / COAL" },
-  { id: "psn-004", name: "Postal Half-Zip", sub: "Garment-dyed", silhouette: "Half-zip", color: "Tobacco", swatches: ["#a68a64", "#0a0a0a", "#e8e2d5"], price: 235, sizes: [{ s: "XS", stock: 3 }, { s: "S", stock: 8 }, { s: "M", stock: 5 }, { s: "L", stock: 4 }, { s: "XL", stock: 7 }, { s: "XXL", stock: 2 }], tag: "NEW", label: "P.QZIP.004 / TOBACCO" },
-  { id: "psn-005", name: "Field Hoodie", sub: "Carbon-washed", silhouette: "Oversized", color: "Carbon", swatches: ["#2b2a27", "#8a8378", "#e8e2d5"], price: 255, sizes: [{ s: "XS", stock: 6 }, { s: "S", stock: 0 }, { s: "M", stock: 9 }, { s: "L", stock: 5 }, { s: "XL", stock: 2 }, { s: "XXL", stock: 1 }], tag: null, label: "P.HOOD.005 / CARBON" },
-  { id: "psn-006", name: "Service Quarter-Zip", sub: "Twin-needle finish", silhouette: "Half-zip", color: "Cream", swatches: ["#f0e9da", "#2b2a27", "#a68a64"], price: 215, sizes: [{ s: "XS", stock: 9 }, { s: "S", stock: 6 }, { s: "M", stock: 8 }, { s: "L", stock: 2 }, { s: "XL", stock: 0 }, { s: "XXL", stock: 4 }], tag: "LOW", label: "P.QZIP.006 / CREAM" },
+  { id: "psn-001", name: "Atelier Hoodie",        sub: "Heavyweight 500GSM",   silhouette: "Boxed crew",  color: "Bone",    swatches: ["#e8e2d5","#0a0a0a","#5a5a5a"], price: 245, sizes: [{s:"XS",stock:0},{s:"S",stock:8},{s:"M",stock:3},{s:"L",stock:12},{s:"XL",stock:5},{s:"XXL",stock:0}], tag: "NEW",  label: "P.HOOD.001 / BONE",    category: "tops" },
+  { id: "psn-002", name: "Reverse Quarter-Zip",   sub: "Brushed loopback",     silhouette: "Half-zip",    color: "Ash",     swatches: ["#8a8378","#0a0a0a","#e8e2d5"], price: 220, sizes: [{s:"XS",stock:4},{s:"S",stock:2},{s:"M",stock:0},{s:"L",stock:6},{s:"XL",stock:11},{s:"XXL",stock:3}], tag: "LOW",  label: "P.QZIP.002 / ASH",     category: "tops" },
+  { id: "psn-003", name: "Type-01 Hoodie",        sub: "Embroidered wordmark", silhouette: "Standard",    color: "Coal",    swatches: ["#0a0a0a","#e8e2d5","#a68a64"], price: 265, sizes: [{s:"XS",stock:5},{s:"S",stock:7},{s:"M",stock:4},{s:"L",stock:2},{s:"XL",stock:0},{s:"XXL",stock:0}], tag: null,   label: "P.HOOD.003 / COAL",    category: "tops" },
+  { id: "psn-004", name: "Postal Half-Zip",       sub: "Garment-dyed",         silhouette: "Half-zip",    color: "Tobacco", swatches: ["#a68a64","#0a0a0a","#e8e2d5"], price: 235, sizes: [{s:"XS",stock:3},{s:"S",stock:8},{s:"M",stock:5},{s:"L",stock:4},{s:"XL",stock:7},{s:"XXL",stock:2}], tag: "NEW",  label: "P.QZIP.004 / TOBACCO", category: "tops" },
+  { id: "psn-005", name: "Field Hoodie",          sub: "Carbon-washed",        silhouette: "Oversized",   color: "Carbon",  swatches: ["#2b2a27","#8a8378","#e8e2d5"], price: 255, sizes: [{s:"XS",stock:6},{s:"S",stock:0},{s:"M",stock:9},{s:"L",stock:5},{s:"XL",stock:2},{s:"XXL",stock:1}], tag: null,   label: "P.HOOD.005 / CARBON",  category: "tops" },
+  { id: "psn-006", name: "Service Quarter-Zip",   sub: "Twin-needle finish",   silhouette: "Half-zip",    color: "Cream",   swatches: ["#f0e9da","#2b2a27","#a68a64"], price: 215, sizes: [{s:"XS",stock:9},{s:"S",stock:6},{s:"M",stock:8},{s:"L",stock:2},{s:"XL",stock:0},{s:"XXL",stock:4}], tag: "LOW",  label: "P.QZIP.006 / CREAM",   category: "tops" },
+  { id: "psn-007", name: "Studio Tee",            sub: "240gsm cotton",        silhouette: "Boxy",        color: "White",   swatches: ["#f5f5f5","#0a0a0a","#8a8378"], price: 85,  sizes: [{s:"XS",stock:10},{s:"S",stock:8},{s:"M",stock:12},{s:"L",stock:6},{s:"XL",stock:4},{s:"XXL",stock:2}], tag: "NEW",  label: "P.TEE.007 / WHITE",    category: "tees" },
+  { id: "psn-008", name: "Archive Tee",           sub: "Pigment dyed",         silhouette: "Relaxed",     color: "Coal",    swatches: ["#0a0a0a","#e8e2d5","#5a5a5a"], price: 90,  sizes: [{s:"XS",stock:5},{s:"S",stock:7},{s:"M",stock:9},{s:"L",stock:4},{s:"XL",stock:3},{s:"XXL",stock:1}], tag: null,   label: "P.TEE.008 / COAL",     category: "tees" },
+  { id: "psn-009", name: "Wordmark Tee",          sub: "Screen printed",       silhouette: "Standard",    color: "Bone",    swatches: ["#e8e2d5","#0a0a0a","#a68a64"], price: 95,  sizes: [{s:"XS",stock:3},{s:"S",stock:6},{s:"M",stock:8},{s:"L",stock:10},{s:"XL",stock:5},{s:"XXL",stock:2}], tag: "LOW",  label: "P.TEE.009 / BONE",     category: "tees" },
+  { id: "psn-010", name: "Utility Pant",          sub: "Twill weave",          silhouette: "Wide leg",    color: "Olive",   swatches: ["#6b6b45","#0a0a0a","#e8e2d5"], price: 185, sizes: [{s:"XS",stock:2},{s:"S",stock:5},{s:"M",stock:7},{s:"L",stock:4},{s:"XL",stock:3},{s:"XXL",stock:1}], tag: "NEW",  label: "P.PNT.010 / OLIVE",    category: "bottoms" },
+  { id: "psn-011", name: "Track Pant",            sub: "Brushed terry",        silhouette: "Tapered",     color: "Coal",    swatches: ["#0a0a0a","#2b2a27","#8a8378"], price: 165, sizes: [{s:"XS",stock:4},{s:"S",stock:6},{s:"M",stock:8},{s:"L",stock:5},{s:"XL",stock:2},{s:"XXL",stock:0}], tag: null,   label: "P.PNT.011 / COAL",     category: "bottoms" },
+  { id: "psn-012", name: "Camp Cap",              sub: "Washed cotton",        silhouette: "Unstructured", color: "Khaki",  swatches: ["#b5a48a","#0a0a0a","#e8e2d5"], price: 55,  sizes: [{s:"OS",stock:14}], tag: "NEW",  label: "P.CAP.012 / KHAKI",    category: "small-goods" },
+  { id: "psn-013", name: "Ribbed Beanie",         sub: "Heavyweight knit",     silhouette: "Slouch",      color: "Coal",    swatches: ["#0a0a0a","#8a8378","#e8e2d5"], price: 45,  sizes: [{s:"OS",stock:20}], tag: null,   label: "P.BNE.013 / COAL",     category: "small-goods" },
+  { id: "psn-014", name: "Canvas Tote",           sub: "16oz canvas",          silhouette: "Market",      color: "Natural", swatches: ["#d4c9b0","#0a0a0a","#8a8378"], price: 65,  sizes: [{s:"OS",stock:18}], tag: null,   label: "P.TOT.014 / NATURAL",  category: "small-goods" },
 ];
 
 function stockSummary(p) {
@@ -510,17 +518,17 @@ function NavDropdown({ trigger, columns, isActive, onItemClick }) {
   );
 }
 
-function Nav({ page, setPage, cart, openCart }) {
+function Nav({ page, setPage, setShopCategory, cart, openCart }) {
   const count = cart.reduce((a, b) => a + b.qty, 0);
   const shopCols = [
-    { heading: "Featured", items: [{ label: "Shop All", to: "shop" }, { label: "Best Sellers", to: "shop" }, { label: "New Arrivals", to: "shop" }] },
-    { heading: "Shop", items: [{ label: "Tees", to: "shop" }, { label: "Tops", to: "shop" }, { label: "Bottoms", to: "shop" }, { label: "Small Goods", to: "shop" }] },
+    { heading: "Featured", items: [{ label: "Shop All", to: "shop", category: null }, { label: "Best Sellers", to: "shop", category: null }, { label: "New Arrivals", to: "shop", category: null }] },
+    { heading: "Shop", items: [{ label: "Tees", to: "shop", category: "tees" }, { label: "Tops", to: "shop", category: "tops" }, { label: "Bottoms", to: "shop", category: "bottoms" }, { label: "Small Goods", to: "shop", category: "small-goods" }] },
   ];
   const elseCols = [
     { heading: "General", items: [{ label: "Account" }, { label: "FAQ", to: "faq" }, { label: "Contact", to: "contact" }] },
     { heading: "Community", items: [{ label: "About", to: "about" }, { label: "Discord", href: "https://discord.gg/rWNgX32RVv" }, { label: "Instagram", href: "https://www.instagram.com/pastionclothing/" }] },
   ];
-  const go = it => { if (it.to) setPage(it.to); };
+  const go = it => { if (it.to) { setPage(it.to); if (it.to === "shop") setShopCategory(it.category ?? null); } };
   return (
     <header className="nav">
       <div className="nav-inner">
@@ -800,7 +808,7 @@ function Home({ setPage, openProduct, addToCart }) {
   );
 }
 
-function Shop({ openProduct, addToCart }) {
+function Shop({ openProduct, addToCart, category }) {
   const [sort, setSort] = useState("featured");
 
   const SORT_OPTIONS = [
@@ -815,7 +823,10 @@ function Shop({ openProduct, addToCart }) {
     { value: "date-desc",    label: "Date, new to old" },
   ];
 
-  const sorted = [...PRODUCTS].sort((a, b) => {
+  const CATEGORY_LABELS = { tees: "Tees", tops: "Tops", bottoms: "Bottoms", "small-goods": "Small Goods" };
+
+  const filtered = category ? PRODUCTS.filter(p => p.category === category) : PRODUCTS;
+  const sorted = [...filtered].sort((a, b) => {
     if (sort === "alpha-asc")  return a.name.localeCompare(b.name);
     if (sort === "alpha-desc") return b.name.localeCompare(a.name);
     if (sort === "price-asc")  return a.price - b.price;
@@ -825,17 +836,22 @@ function Shop({ openProduct, addToCart }) {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", padding: "24px var(--gutter) 16px", gap: 10 }}>
-        <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--char)" }}>Sort by</span>
-        <div style={{ position: "relative" }}>
-          <select
-            value={sort}
-            onChange={e => setSort(e.target.value)}
-            style={{ appearance: "none", fontFamily: "var(--f-sans)", fontSize: 13, color: "var(--ink)", background: "var(--paper)", border: "1px solid var(--line)", borderRadius: 0, padding: "8px 32px 8px 12px", cursor: "pointer", outline: "none" }}
-          >
-            {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
-          <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", fontSize: 10, color: "var(--char)" }}>▾</span>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "24px var(--gutter) 16px" }}>
+        <span style={{ fontFamily: "var(--f-display)", fontSize: 22, fontWeight: 700, letterSpacing: "-0.03em", color: "var(--ink)" }}>
+          {category ? CATEGORY_LABELS[category] : "All Products"}
+        </span>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--char)" }}>Sort by</span>
+          <div style={{ position: "relative" }}>
+            <select
+              value={sort}
+              onChange={e => setSort(e.target.value)}
+              style={{ appearance: "none", fontFamily: "var(--f-sans)", fontSize: 13, color: "var(--ink)", background: "var(--paper)", border: "1px solid var(--line)", borderRadius: 0, padding: "8px 32px 8px 12px", cursor: "pointer", outline: "none" }}
+            >
+              {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+            <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", fontSize: 10, color: "var(--char)" }}>▾</span>
+          </div>
         </div>
       </div>
       <div className="product-grid" style={{ "--cols": 4 }}>
@@ -1076,6 +1092,7 @@ function App() {
   const [tweaks, setTweak] = useTweaks({ heroVariant: "editorial", palette: "warm", typePair: "editorial", density: "default" });
   const [page, setPage] = useState("home");
   const [activeProduct, setActiveProduct] = useState(null);
+  const [shopCategory, setShopCategory] = useState(null);
   const [cart, setCart] = useState([{ lineId: "L1", id: "psn-001", name: "Atelier Hoodie", color: "Bone", size: "M", price: 245, qty: 1 }]);
   const [cartOpen, setCartOpen] = useState(false);
 
@@ -1093,7 +1110,7 @@ function App() {
 
   function renderPage() {
     if (page === "home") return <Home setPage={setPage} openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} />;
-    if (page === "shop") return <Shop openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} />;
+    if (page === "shop") return <Shop openProduct={p => { setActiveProduct(p); setPage("pdp"); }} addToCart={addToCart} category={shopCategory} />;
     if (page === "pdp" && activeProduct) return <PDP product={activeProduct} addToCart={addToCart} goBack={() => setPage("shop")} />;
     if (page === "lookbook") return <Lookbook />;
     if (page === "about") return <About />;
@@ -1109,7 +1126,7 @@ function App() {
 
   return (
     <div>
-      <Nav page={page} setPage={setPage} cart={cart} openCart={() => setCartOpen(true)} />
+      <Nav page={page} setPage={setPage} setShopCategory={setShopCategory} cart={cart} openCart={() => setCartOpen(true)} />
       <main>{renderPage()}</main>
       <Footer setPage={setPage} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} cart={cart}
