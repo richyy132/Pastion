@@ -1260,6 +1260,183 @@ function TermsOfService() {
   );
 }
 
+function FAQ() {
+  const [open, setOpen] = useState(null);
+  const toggle = key => setOpen(open === key ? null : key);
+
+  const SECTIONS = [
+    {
+      heading: "Orders & Payment",
+      items: [
+        {
+          q: "How do I place an order?",
+          a: "Browse our collection, select your size, and click Add to Cart. When you're ready, proceed to checkout and complete your order. You'll receive a confirmation email once your order is placed.",
+        },
+        {
+          q: "What payment methods do you accept?",
+          a: "We accept all major credit and debit cards (Visa, Mastercard, American Express), as well as Apple Pay and Google Pay. All transactions are processed securely through our payment provider.",
+        },
+        {
+          q: "Can I modify or cancel my order after placing it?",
+          a: "We begin processing orders quickly, so changes can only be made within a short window. If you need to modify or cancel your order, email us immediately at pastionclo@gmail.com with your order number. Once an order has been dispatched we are unable to make changes.",
+        },
+        {
+          q: "Will I receive a confirmation email?",
+          a: "Yes. You'll receive an order confirmation email immediately after placing your order, and a second email with tracking information once your order has shipped. Check your spam folder if you don't see these emails.",
+        },
+        {
+          q: "Do you offer gift cards?",
+          a: "Not at this time. Gift cards are something we're exploring for a future release. Follow our Instagram or join our Discord to stay updated.",
+        },
+      ],
+    },
+    {
+      heading: "Sizing & Fit",
+      items: [
+        {
+          q: "How do Pastion pieces fit?",
+          a: "Our hoodies and tops are cut for a boxed, relaxed fit — designed to be worn with volume. Our tees are boxy and slightly oversized. If you're between sizes or prefer a closer fit, we recommend sizing down. Check the size guide on each product page for exact measurements.",
+        },
+        {
+          q: "Where can I find measurements?",
+          a: "Each product page includes a Size Guide link with a full measurement chart. Measurements are taken flat and listed in centimetres. If you have additional sizing questions, reach out at pastionclo@gmail.com.",
+        },
+        {
+          q: "Will pieces shrink after washing?",
+          a: "All Pastion garments are pre-shrunk and garment-washed before they reach you. When cared for correctly (cold wash, gentle cycle, hang dry) you should experience minimal shrinkage. Always wash inside out.",
+        },
+      ],
+    },
+    {
+      heading: "Shipping & Delivery",
+      items: [
+        {
+          q: "How long does shipping take?",
+          a: "Orders are processed within 2–3 business days. Domestic (Canada) delivery takes 3–7 business days. US orders take 5–10 business days. International orders typically arrive within 7–21 business days depending on destination and customs clearance.",
+        },
+        {
+          q: "Do you offer free shipping?",
+          a: "Yes — free standard shipping is available on all orders over $200 CAD within Canada and the United States.",
+        },
+        {
+          q: "Do you ship internationally?",
+          a: "Yes, we ship to select international destinations. International shipping rates and estimated delivery times are calculated at checkout. Please note that import duties and taxes are the responsibility of the customer.",
+        },
+        {
+          q: "How do I track my order?",
+          a: "Once your order ships, you'll receive a tracking number by email. Use that number on the carrier's website to follow your package. Tracking updates may take up to 24 hours to appear after dispatch.",
+        },
+        {
+          q: "My package hasn't arrived — what do I do?",
+          a: "If your package hasn't moved in more than 5 business days or is significantly past the estimated delivery date, email us at pastionclo@gmail.com with your order number. We'll investigate with the carrier and arrange a replacement or refund where appropriate.",
+        },
+      ],
+    },
+    {
+      heading: "Returns & Refunds",
+      items: [
+        {
+          q: "What is your return policy?",
+          a: "We accept returns on full-price items within 30 days of delivery, provided they are unworn, unwashed, and in original condition with all tags attached. Sale items and limited-edition drop pieces are final sale.",
+        },
+        {
+          q: "How do I start a return?",
+          a: "Email us at pastionclo@gmail.com with your order number and the item(s) you wish to return. We'll send you return instructions within 1–2 business days. Do not send items back without first receiving return authorisation.",
+        },
+        {
+          q: "How long do refunds take?",
+          a: "Once we receive and inspect your return, your refund will be issued to the original payment method within 5–10 business days. Original shipping fees are non-refundable unless the return is due to our error.",
+        },
+        {
+          q: "Can I exchange for a different size?",
+          a: "Yes — we offer size exchanges subject to stock availability. Email us at pastionclo@gmail.com to arrange. If the requested size is unavailable, we'll issue a full refund instead.",
+        },
+        {
+          q: "I received a damaged or incorrect item. What now?",
+          a: "We're sorry about that. Email us at pastionclo@gmail.com within 7 days of delivery with photos of the issue and your order number. We'll arrange a replacement or full refund, including return shipping, at no cost to you.",
+        },
+      ],
+    },
+    {
+      heading: "Products & Restocks",
+      items: [
+        {
+          q: "Will sold-out items be restocked?",
+          a: "Pastion operates on a limited-drop model — most pieces are made in a single run and are not restocked. Occasionally we may restock a core piece; follow our Instagram @pastionclothing or join our Discord for restock announcements.",
+        },
+        {
+          q: "How do I find out about new drops?",
+          a: "Subscribe to our newsletter at the bottom of the site, follow us on Instagram @pastionclothing, or join our Discord community. Drop announcements go to all three channels simultaneously.",
+        },
+        {
+          q: "How do I care for my Pastion garment?",
+          a: "Machine wash cold, inside out, on a gentle cycle. Do not bleach. Tumble dry low or hang to dry — we recommend hang drying to preserve shape and weight. Do not iron directly over any embroidery. Do not dry clean.",
+        },
+        {
+          q: "Where are your garments made?",
+          a: "Our garments are constructed in Portugal with a focus on small-batch, considered production. We work with a single mill and dye-house to maintain quality and consistency across every piece.",
+        },
+      ],
+    },
+    {
+      heading: "General",
+      items: [
+        {
+          q: "How do I contact Pastion?",
+          a: "The best way to reach us is by email at pastionclo@gmail.com. You can also use the contact form on our Contact page. We aim to respond to all enquiries within 1–2 business days.",
+        },
+        {
+          q: "Do you have a physical store?",
+          a: "We are currently online only. All orders are placed and fulfilled through this website.",
+        },
+        {
+          q: "Do you offer student or discount codes?",
+          a: "We do not currently offer ongoing discount programmes. Occasional promotions may be announced via our newsletter and social channels.",
+        },
+      ],
+    },
+  ];
+
+  return (
+    <div style={{ maxWidth: 720, margin: "0 auto", padding: "80px var(--gutter) 120px" }}>
+      <h1 style={{ fontFamily: "var(--f-display)", fontWeight: 800, fontSize: "clamp(36px,5vw,64px)", letterSpacing: "-0.04em", margin: "0 0 12px" }}>
+        Frequently asked <em>questions.</em>
+      </h1>
+      <p style={{ fontFamily: "var(--f-sans)", fontSize: 15, color: "var(--char)", lineHeight: 1.65, margin: "0 0 64px" }}>
+        Can't find what you're looking for? Email us at <strong>pastionclo@gmail.com</strong> and we'll get back to you within 1–2 business days.
+      </p>
+
+      {SECTIONS.map(section => (
+        <div key={section.heading} style={{ marginBottom: 52 }}>
+          <h2 style={{ fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--stone)", margin: "0 0 0", fontWeight: 400, paddingBottom: 16, borderBottom: "1px solid var(--line)" }}>
+            {section.heading}
+          </h2>
+          {section.items.map((item, i) => {
+            const key = section.heading + i;
+            const isOpen = open === key;
+            return (
+              <div key={key} style={{ borderBottom: "1px solid var(--line)" }}>
+                <button
+                  onClick={() => toggle(key)}
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", padding: "20px 0", background: "none", border: "none", cursor: "pointer", textAlign: "left", gap: 16 }}
+                >
+                  <span style={{ fontFamily: "var(--f-sans)", fontSize: 15, fontWeight: 600, color: "var(--ink)", lineHeight: 1.4 }}>{item.q}</span>
+                  <span style={{ fontSize: 20, fontWeight: 300, color: "var(--char)", flexShrink: 0, lineHeight: 1, transform: isOpen ? "rotate(45deg)" : "none", transition: "transform 0.2s ease" }}>+</span>
+                </button>
+                {isOpen && (
+                  <div style={{ paddingBottom: 24, fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", lineHeight: 1.75 }}>
+                    {item.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Contact() {
   const [fields, setFields] = useState({ name: "", email: "", subject: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
@@ -1370,6 +1547,7 @@ function App() {
     if (page === "refund-policy") return <RefundPolicy />;
     if (page === "terms-of-service") return <TermsOfService />;
     if (page === "contact") return <Contact />;
+    if (page === "faq") return <FAQ />;
     return null;
   }
 
