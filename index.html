@@ -1084,63 +1084,178 @@ function PolicyPage({ title, children }) {
 }
 
 function PrivacyPolicy() {
+  const h = { fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 };
   return (
     <PolicyPage title="Privacy Policy">
-      <p>Last updated: June 2026</p>
-      <p>At Pastion, we are committed to protecting your personal information and your right to privacy. This policy outlines what information we collect, how we use it, and what rights you have in relation to it.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Information We Collect</h3>
-      <p>We collect information you provide when placing an order, creating an account, or signing up for our newsletter. This includes your name, email address, shipping address, and payment information.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>How We Use Your Information</h3>
-      <p>We use your information to fulfil orders, communicate with you about your purchases, and send marketing communications where you have opted in. We do not sell your personal data to third parties.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Your Rights</h3>
-      <p>You have the right to access, correct, or delete your personal data at any time. To make a request, contact us at privacy@pastion.com.</p>
+      <p>Last updated: May 2026</p>
+      <p>Pastion ("we", "us", or "our") operates this website and is committed to protecting your personal information. This Privacy Policy explains what data we collect, how we use it, who we share it with, and what rights you have. By using our site or placing an order, you agree to the practices described here.</p>
+
+      <h3 style={h}>1. Information We Collect</h3>
+      <p><strong>Information you provide directly:</strong> When you place an order, create an account, or contact us, we collect your name, email address, shipping and billing address, phone number, and payment details. Payment card information is processed securely by our payment provider and is never stored on our servers.</p>
+      <p><strong>Information collected automatically:</strong> When you visit our site we may collect your IP address, browser type, operating system, referring URLs, pages visited, and time spent on each page. This data helps us understand how our site is used and improve your experience.</p>
+      <p><strong>Cookies and similar technologies:</strong> We use cookies and similar tracking technologies to maintain your session, remember your cart, and analyse site traffic. You can disable cookies through your browser settings, though some features of the site may not function correctly as a result.</p>
+
+      <h3 style={h}>2. How We Use Your Information</h3>
+      <p>We use the information we collect to: process and fulfil your orders; send order confirmations, shipping updates, and delivery notifications; respond to your questions and support requests; send marketing emails where you have opted in (you may unsubscribe at any time); detect and prevent fraud or unauthorised access; and improve our products, website, and customer experience.</p>
+      <p>We will never sell, rent, or trade your personal information to third parties for their own marketing purposes.</p>
+
+      <h3 style={h}>3. Sharing Your Information</h3>
+      <p><strong>Service providers:</strong> We share your information with trusted third-party service providers who help us operate our business, including payment processors, shipping carriers, and email platforms. These providers are contractually obligated to handle your data securely and only for the purposes we specify.</p>
+      <p><strong>Legal requirements:</strong> We may disclose your information if required to do so by law, court order, or government authority, or if we believe disclosure is necessary to protect the rights, property, or safety of Pastion, our customers, or the public.</p>
+      <p><strong>Business transfers:</strong> In the event of a merger, acquisition, or sale of assets, your information may be transferred to the acquiring entity. We will notify you before your information becomes subject to a different privacy policy.</p>
+
+      <h3 style={h}>4. Data Retention</h3>
+      <p>We retain your personal information for as long as necessary to fulfil the purposes described in this policy, comply with legal obligations, resolve disputes, and enforce our agreements. Order records are typically retained for seven years in accordance with Canadian tax law. You may request deletion of your account and associated data at any time (subject to legal retention requirements).</p>
+
+      <h3 style={h}>5. Your Rights</h3>
+      <p>Depending on your location, you may have the right to: access a copy of the personal data we hold about you; correct inaccurate or incomplete data; request deletion of your data; object to or restrict how we process your data; and withdraw consent for marketing communications at any time.</p>
+      <p>To exercise any of these rights, email us at <strong>pastionclo@gmail.com</strong>. We will respond within 30 days.</p>
+
+      <h3 style={h}>6. Third-Party Links</h3>
+      <p>Our website may contain links to third-party sites (such as Instagram or Discord). We are not responsible for the privacy practices of those sites and encourage you to review their privacy policies before providing any personal information.</p>
+
+      <h3 style={h}>7. Children's Privacy</h3>
+      <p>Our site is not directed to children under the age of 13. We do not knowingly collect personal information from children. If you believe we have inadvertently collected data from a child, please contact us immediately at <strong>pastionclo@gmail.com</strong> and we will delete it promptly.</p>
+
+      <h3 style={h}>8. Changes to This Policy</h3>
+      <p>We may update this Privacy Policy from time to time. When we do, we will revise the "Last updated" date at the top of this page. For significant changes, we will notify you by email or by placing a notice on our website. Your continued use of the site after any changes constitutes acceptance of the updated policy.</p>
+
+      <h3 style={h}>9. Contact</h3>
+      <p>For any questions, concerns, or requests related to this Privacy Policy, contact us at <strong>pastionclo@gmail.com</strong>.</p>
     </PolicyPage>
   );
 }
 
 function ShippingPolicy() {
+  const h = { fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 };
   return (
     <PolicyPage title="Shipping Policy">
-      <p>Last updated: June 2026</p>
-      <p>All orders are processed within 2–3 business days. Orders are not shipped or delivered on weekends or public holidays.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Domestic Shipping</h3>
-      <p>Standard shipping within Canada and the United States takes 3–5 business days. Complimentary shipping is available on all orders over $200.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>International Shipping</h3>
-      <p>International orders typically arrive within 7–14 business days depending on destination and customs processing. Import duties and taxes are the responsibility of the customer.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Tracking</h3>
-      <p>A tracking number will be emailed to you once your order has shipped. If you have not received your order within the estimated timeframe, contact us at orders@pastion.com.</p>
+      <p>Last updated: May 2026</p>
+      <p>We want your Pastion order to arrive as quickly and safely as possible. Please read the following shipping information carefully before placing your order. All prices are in Canadian Dollars (CAD) unless otherwise stated.</p>
+
+      <h3 style={h}>1. Order Processing</h3>
+      <p>All orders are processed within 2–3 business days of payment confirmation. Orders placed on weekends or Canadian public holidays will begin processing on the next business day. During high-demand periods such as new drop releases, processing times may extend to 3–5 business days. You will receive an email confirmation when your order is placed and a second notification with tracking details once it ships.</p>
+
+      <h3 style={h}>2. Domestic Shipping (Canada)</h3>
+      <p>Standard shipping within Canada typically takes 3–7 business days depending on your location. Expedited shipping options (2–3 business days) are available at checkout for an additional fee. Free standard shipping is offered on all Canadian orders over $200 CAD before taxes.</p>
+
+      <h3 style={h}>3. United States Shipping</h3>
+      <p>Orders to the United States are shipped via tracked courier and typically arrive within 5–10 business days. Free shipping is available on US orders over $200 CAD. Please note that US orders may be subject to customs duties and import taxes levied by US Customs and Border Protection. These fees are the sole responsibility of the customer and are not included in our shipping charges.</p>
+
+      <h3 style={h}>4. International Shipping</h3>
+      <p>We currently ship to select international destinations. International orders typically arrive within 7–21 business days depending on the destination country and local customs processing times. International shipping rates are calculated at checkout based on destination and package weight.</p>
+      <p>All import duties, taxes, brokerage fees, and customs charges are the sole responsibility of the customer. Pastion is not liable for delays caused by customs inspections. If a package is refused at customs and returned to us, we will issue a refund for the product cost only; original and return shipping fees will not be refunded.</p>
+
+      <h3 style={h}>5. Shipping Rates</h3>
+      <p>Shipping rates are calculated at checkout based on your location, order weight, and selected shipping method. Applicable taxes (GST/HST/PST) will be applied at checkout for Canadian orders in accordance with provincial tax requirements.</p>
+
+      <h3 style={h}>6. Order Tracking</h3>
+      <p>Once your order ships, you will receive an email containing your tracking number and a link to track your package. Tracking information may take up to 24 hours to update after your order has been collected by the carrier. For tracking issues, contact us at <strong>pastionclo@gmail.com</strong> with your order number.</p>
+
+      <h3 style={h}>7. Lost or Delayed Packages</h3>
+      <p>If your tracking shows your package has not moved in more than 5 business days, or if it has been more than 10 business days past the estimated delivery date, please contact us at <strong>pastionclo@gmail.com</strong>. We will work with the carrier to investigate and, where appropriate, arrange a replacement or refund.</p>
+      <p>Pastion is not responsible for delays caused by carrier disruptions, weather events, customs clearance, or inaccurate shipping addresses provided at checkout.</p>
+
+      <h3 style={h}>8. Address Changes</h3>
+      <p>If you need to change your shipping address after placing an order, contact us immediately at <strong>pastionclo@gmail.com</strong>. We can only accommodate address changes before your order has been dispatched. Once an order has shipped, we are unable to redirect packages and will not be responsible for deliveries made to an incorrect address provided at checkout.</p>
+
+      <h3 style={h}>9. Undeliverable Packages</h3>
+      <p>If a package is returned to us as undeliverable due to an incorrect address, failed delivery attempts, or the customer's failure to collect from a pickup location, we will contact you to arrange reshipment at your expense. If reshipment is not arranged within 14 days, we reserve the right to restock the items and issue a partial refund (excluding original shipping fees).</p>
     </PolicyPage>
   );
 }
 
 function RefundPolicy() {
+  const h = { fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 };
   return (
     <PolicyPage title="Refund Policy">
-      <p>Last updated: June 2026</p>
-      <p>We want you to love your Pastion pieces. If something isn't right, we're here to help.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Returns</h3>
-      <p>Items may be returned within 30 days of delivery, provided they are unworn, unwashed, and in original condition with all tags attached. Sale items and limited-edition drop pieces are final sale.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>How to Return</h3>
-      <p>Initiate a return via your account portal or by emailing returns@pastion.com with your order number. We will provide a return shipping label within 1–2 business days.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Refunds</h3>
-      <p>Once your return is received and inspected, your refund will be processed to the original payment method within 5–7 business days.</p>
+      <p>Last updated: May 2026</p>
+      <p>We want you to love every Pastion piece. If something isn't right, we're here to make it right. Please read the following policy carefully before initiating a return.</p>
+
+      <h3 style={h}>1. Returns Overview</h3>
+      <p>We accept returns on eligible full-price items within 30 days of the delivery date. Items must be returned in their original condition — unworn, unwashed, unaltered, and with all original tags attached. We reserve the right to refuse returns that do not meet these conditions.</p>
+
+      <h3 style={h}>2. Eligible Items</h3>
+      <p>Full-price items in original, unaltered condition are eligible for return within 30 days of delivery. Items must be free from odours, marks, pet hair, or any signs of wear.</p>
+
+      <h3 style={h}>3. Non-Returnable Items</h3>
+      <p>The following items are final sale and cannot be returned or exchanged under any circumstances:</p>
+      <p>• Sale and discounted items<br />• Limited-edition drop pieces marked as final sale at time of purchase<br />• Items marked as non-returnable at checkout<br />• Gift cards<br />• Items that have been worn, washed, altered, or damaged after delivery</p>
+
+      <h3 style={h}>4. How to Initiate a Return</h3>
+      <p>To start a return, email us at <strong>pastionclo@gmail.com</strong> with your order number, the item(s) you wish to return, and the reason for your return. We will respond within 1–2 business days with return instructions and, where applicable, a prepaid return shipping label.</p>
+      <p>Do not send items back without first receiving return authorisation from us. Unauthorised returns may be refused and returned to sender.</p>
+
+      <h3 style={h}>5. Return Shipping</h3>
+      <p>For returns due to our error (wrong item sent, manufacturing defect, or damage during transit), we will provide a prepaid return shipping label at no cost to you.</p>
+      <p>For all other returns, return shipping costs are the responsibility of the customer. We recommend using a tracked shipping method, as we are not responsible for packages lost in transit on their way back to us.</p>
+
+      <h3 style={h}>6. Inspection and Processing</h3>
+      <p>Once we receive your returned item, we will inspect it within 3–5 business days. If the return is approved, your refund or exchange will be processed promptly. If the item does not meet our return conditions, we will notify you and, if requested, return the item to you at your expense.</p>
+
+      <h3 style={h}>7. Refunds</h3>
+      <p>Approved refunds are issued to the original payment method used at checkout. Please allow 5–10 business days for the refund to appear in your account, depending on your bank or card provider. Original shipping fees are non-refundable unless the return is due to our error.</p>
+
+      <h3 style={h}>8. Exchanges</h3>
+      <p>We offer exchanges for a different size of the same item, subject to stock availability. To request an exchange, follow the same process as a return and note the size you require. If the requested size is unavailable, we will issue a refund instead. Exchanges are processed once the original item has been received and inspected.</p>
+
+      <h3 style={h}>9. Damaged or Defective Items</h3>
+      <p>If you receive an item that is damaged, defective, or incorrect, please contact us within 7 days of delivery at <strong>pastionclo@gmail.com</strong> with photos of the issue and your order number. We will arrange a replacement or full refund at no cost to you, including return shipping.</p>
+
+      <h3 style={h}>10. Late or Missing Refunds</h3>
+      <p>If you have not received your refund within 10 business days of our confirmation, first check with your bank or card provider as processing times vary. If you still have not received your refund, contact us at <strong>pastionclo@gmail.com</strong> and we will investigate.</p>
     </PolicyPage>
   );
 }
 
 function TermsOfService() {
+  const h = { fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 };
   return (
     <PolicyPage title="Terms of Service">
-      <p>Last updated: June 2026</p>
-      <p>By accessing or using the Pastion website, you agree to be bound by these terms. Please read them carefully.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Use of the Site</h3>
-      <p>You may use this site for lawful purposes only. You agree not to use the site in any way that violates applicable laws or regulations, or that could harm or damage Pastion or its users.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Intellectual Property</h3>
-      <p>All content on this site — including but not limited to text, images, graphics, and branding — is the property of Pastion Studio and may not be reproduced without written permission.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Limitation of Liability</h3>
-      <p>Pastion shall not be liable for any indirect, incidental, or consequential damages arising from your use of the site or products purchased through it.</p>
-      <h3 style={{ fontFamily: "var(--f-display)", fontWeight: 700, fontSize: 20, letterSpacing: "-0.02em", color: "var(--ink)", margin: 0 }}>Changes to Terms</h3>
-      <p>We reserve the right to update these terms at any time. Continued use of the site following any changes constitutes acceptance of the new terms.</p>
+      <p>Last updated: May 2026</p>
+      <p>These Terms of Service ("Terms") govern your use of the Pastion website and any purchases made through it. By accessing our site or placing an order, you agree to be bound by these Terms. If you do not agree, please do not use our site.</p>
+
+      <h3 style={h}>1. About Us</h3>
+      <p>Pastion is a clothing brand based in Vancouver, British Columbia, Canada. We operate this website for the purpose of selling our products directly to consumers. Any questions regarding these Terms may be directed to <strong>pastionclo@gmail.com</strong>.</p>
+
+      <h3 style={h}>2. Use of the Site</h3>
+      <p>You may use this site for lawful personal purposes only. You agree not to use the site in any way that violates applicable local, provincial, national, or international laws or regulations; that is harmful, fraudulent, deceptive, or misleading; that infringes upon the intellectual property or privacy rights of others; or that interferes with the normal operation of the website.</p>
+      <p>We reserve the right to suspend or terminate your access to the site at any time without notice if we believe you are in breach of these Terms.</p>
+
+      <h3 style={h}>3. Account Registration</h3>
+      <p>You may be required to create an account to access certain features of our site. You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account. You agree to provide accurate, current, and complete information and to update it as necessary. Notify us immediately at <strong>pastionclo@gmail.com</strong> if you suspect unauthorised use of your account.</p>
+
+      <h3 style={h}>4. Products and Pricing</h3>
+      <p>We reserve the right to modify, discontinue, or limit quantities of any product at any time without notice. All prices are displayed in Canadian Dollars (CAD) and are subject to change without notice. We make every effort to display product colours and details accurately; however, we cannot guarantee that your device's screen will render colours precisely as they appear in real life.</p>
+      <p>We reserve the right to refuse or cancel any order at our discretion, including in the event of pricing errors, suspected fraud, or stock unavailability. If your order is cancelled after payment has been processed, a full refund will be issued.</p>
+
+      <h3 style={h}>5. Orders and Payment</h3>
+      <p>By placing an order, you represent that you are at least 18 years of age and are authorised to use the payment method provided. All orders are subject to acceptance and availability. Receipt of an order confirmation does not constitute acceptance of your order — acceptance occurs when your order is dispatched.</p>
+      <p>We use third-party payment processors to handle all transactions. We do not store payment card information on our servers. You agree to pay all charges associated with your order, including applicable taxes and shipping fees.</p>
+
+      <h3 style={h}>6. Intellectual Property</h3>
+      <p>All content on this website — including but not limited to text, photographs, graphics, logos, brand names, product designs, and software — is the exclusive property of Pastion or its content suppliers and is protected by applicable copyright, trademark, and intellectual property laws. You may not reproduce, distribute, modify, display, or create derivative works from any content on this site without our prior written permission.</p>
+
+      <h3 style={h}>7. Prohibited Activities</h3>
+      <p>You agree not to: copy, scrape, or harvest any content or data from this site using automated means; attempt to gain unauthorised access to any part of the site or its systems; transmit viruses, malware, or any other harmful code; use the site to transmit unsolicited communications; impersonate any person or entity; or use the site for any commercial purpose without our express written consent.</p>
+
+      <h3 style={h}>8. Disclaimer of Warranties</h3>
+      <p>This site and its contents are provided on an "as is" and "as available" basis without any warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that the site will be uninterrupted, error-free, or free of viruses or other harmful components.</p>
+
+      <h3 style={h}>9. Limitation of Liability</h3>
+      <p>To the fullest extent permitted by applicable law, Pastion and its directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages — including lost profits, lost data, or loss of goodwill — arising from your use of or inability to use this site or any products purchased through it, even if we have been advised of the possibility of such damages. Our total liability to you for any claim arising out of or relating to these Terms or your use of the site shall not exceed the amount paid by you for the product giving rise to the claim.</p>
+
+      <h3 style={h}>10. Indemnification</h3>
+      <p>You agree to indemnify, defend, and hold harmless Pastion and its officers, directors, employees, and agents from and against any claims, liabilities, damages, losses, costs, or expenses (including reasonable legal fees) arising out of or in connection with your use of the site, your violation of these Terms, or your violation of any third-party rights.</p>
+
+      <h3 style={h}>11. Governing Law</h3>
+      <p>These Terms shall be governed by and construed in accordance with the laws of the Province of British Columbia and the federal laws of Canada applicable therein, without regard to conflict of law principles. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the courts of British Columbia.</p>
+
+      <h3 style={h}>12. Changes to These Terms</h3>
+      <p>We reserve the right to update or modify these Terms at any time. When we do, we will revise the "Last updated" date at the top of this page. Your continued use of the site after any changes constitutes your acceptance of the updated Terms. We encourage you to review these Terms periodically.</p>
+
+      <h3 style={h}>13. Contact</h3>
+      <p>If you have any questions about these Terms of Service, please contact us at <strong>pastionclo@gmail.com</strong>.</p>
     </PolicyPage>
   );
 }
