@@ -884,17 +884,42 @@ function SizeGuideModal({ onClose }) {
 }
 
 function PDP({ product, addToCart, goBack }) {
-  const [size, setSize] = useState(null);
-  const [colorIdx, setColorIdx] = useState(0);
-  const [showGuide, setShowGuide] = useState(false);
+  const [size, setSize] = useState("");
+  const [openSection, setOpenSection] = useState(null);
+
   const sel = product.sizes.find(x => x.s === size);
-  const lowStock = sel && sel.stock > 0 && sel.stock <= 4;
-  const oos = sel && sel.stock === 0;
+  const allOos = product.sizes.every(x => x.stock === 0);
+  const oos = allOos || (sel && sel.stock === 0);
+
+  const FEATURES = {
+    tops: ["Boxy silhouette", "Front logo embroidery", "Hand distressed", "Pre-shrunk and garment washed"],
+    tees: ["Boxy silhouette", "Screen printed / embroidered logo", "Pre-shrunk", "Garment washed"],
+    bottoms: ["Relaxed silhouette", "Elasticated waistband", "Side and back pockets", "Pre-shrunk and garment washed"],
+    "small-goods": ["Adjustable fit", "Embroidered branding", "One size fits most"],
+  };
+  const DESCRIPTIONS = {
+    tops: `Proud to present Pastion's ${product.name.toLowerCase()}. Crafted from ${product.sub.toLowerCase()} for a luxury drape. They feature raw-edge detailing at the waistband and cuffs, with all finishing done by hand.\n\nSuper soft and piece dyed for the ultimate garment.`,
+    tees: `Proud to present Pastion's ${product.name.toLowerCase()}. Crafted from ${product.sub.toLowerCase()} for a clean, lived-in feel. Cut for an oversized, boxy silhouette that wears true to size.\n\nPigment dyed and garment washed for the ultimate finish.`,
+    bottoms: `Proud to present Pastion's ${product.name.toLowerCase()}. Crafted from ${product.sub.toLowerCase()} with a relaxed, wide leg silhouette. Designed for all-day wear with a clean, minimal aesthetic.\n\nGarment washed and pre-shrunk for lasting shape.`,
+    "small-goods": `Proud to present Pastion's ${product.name.toLowerCase()}. Crafted from ${product.sub.toLowerCase()} with a clean, minimal profile. Finished with Pastion's embroidered wordmark.\n\nA considered accessory for every carry.`,
+  };
+
+  const features = FEATURES[product.category] || FEATURES.tops;
+  const descLines = (DESCRIPTIONS[product.category] || DESCRIPTIONS.tops).split("\n\n");
+
+  const toggleSection = label => setOpenSection(openSection === label ? null : label);
+  const ACCORDIONS = [
+    { label: "Shipping and Returns", content: "Complimentary shipping on orders over $200. Returns accepted within 30 days on unworn, unwashed items in original condition with all tags attached. Sale items and limited-edition pieces are final sale." },
+    { label: "Washing Instructions", content: "Machine wash cold, inside out, on a gentle cycle. Do not bleach. Tumble dry low or hang to dry. Do not iron directly on any embroidery or print. Do not dry clean." },
+  ];
+
+  const monoSm = { fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase" };
+
   return (
     <div>
-      <div style={{ display: "flex", gap: 16, padding: "20px var(--gutter)", fontFamily: "var(--f-mono)", fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--char)" }}>
-        <a href="#" onClick={e => { e.preventDefault(); goBack(); }}>← Shop</a><span>/</span>
-        <span>{product.silhouette === "Half-zip" ? "Quarter-Zips" : "Hoodies"}</span><span>/</span>
+      <div style={{ display: "flex", gap: 16, padding: "20px var(--gutter)", ...monoSm, color: "var(--char)" }}>
+        <a href="#" onClick={e => { e.preventDefault(); goBack(); }} style={{ color: "var(--char)" }}>← Shop</a>
+        <span>/</span>
         <span style={{ color: "var(--ink)" }}>{product.name}</span>
       </div>
       <div className="pdp">
@@ -904,46 +929,78 @@ function PDP({ product, addToCart, goBack }) {
           <Placeholder label={`${product.label} — DETAIL`} />
           <Placeholder silhouette label={`${product.label} — ON BODY`} />
         </div>
-        <div className="pdp-info">
-          <div>
-            <div className="eyebrow">{product.label}</div>
-            <h1 className="pdp-title" style={{ marginTop: 8 }}>{product.name.split(" ").slice(0,-1).join(" ")} <em>{product.name.split(" ").slice(-1)[0]}</em></h1>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginTop: 14 }}>
-              <span className="pdp-price">${product.price} USD</span>
-              <span style={{ fontFamily: "var(--f-mono)", fontSize: 10, color: "var(--char)" }}>4 interest-free of ${Math.round(product.price / 4)}</span>
-            </div>
+        <div className="pdp-info" style={{ gap: 0, padding: "40px var(--gutter) 60px" }}>
+          <h1 style={{ fontFamily: "var(--f-display)", fontWeight: 800, fontSize: "clamp(26px,3vw,36px)", letterSpacing: "-0.01em", textTransform: "uppercase", margin: "0 0 10px", color: "var(--ink)", lineHeight: 1.1 }}>
+            {product.name}
+          </h1>
+          <div style={{ fontFamily: "var(--f-sans)", fontSize: 17, fontWeight: 500, color: "var(--ink)", marginBottom: 10 }}>
+            ${product.price}.00
           </div>
-          <div className="pdp-section">
-            <h4><span>Color — {product.color}</span></h4>
-            <div className="color-row">
-              {product.swatches.map((c, i) => <span key={i} className={"swatch " + (colorIdx === i ? "is-on" : "")} style={{ background: c }} onClick={() => setColorIdx(i)} />)}
-            </div>
-          </div>
-          <div className="pdp-section">
-            <h4><span>Size {size && `— ${size}`}</span><button onClick={() => setShowGuide(true)}>Size Guide ↗</button></h4>
-            <div className="size-row">
+          <a href="#" onClick={e => e.preventDefault()} style={{ ...monoSm, fontSize: 10, color: "var(--char)", textDecoration: "underline", textUnderlineOffset: 3, display: "inline-block", marginBottom: 28 }}>
+            Size Guide
+          </a>
+
+          <div style={{ ...monoSm, fontSize: 10, color: "var(--char)", marginBottom: 8 }}>Size</div>
+          <div style={{ position: "relative", marginBottom: 20 }}>
+            <select
+              value={size}
+              onChange={e => setSize(e.target.value)}
+              style={{ width: "100%", appearance: "none", fontFamily: "var(--f-sans)", fontSize: 13, fontWeight: 500, color: size ? "var(--ink)" : "var(--stone)", background: "var(--paper)", border: "1px solid var(--line-strong)", borderRadius: 0, padding: "14px 40px 14px 16px", cursor: "pointer", outline: "none" }}
+            >
+              <option value="" disabled>Select size</option>
               {product.sizes.map(sz => (
-                <button key={sz.s} className={"size-btn " + (size === sz.s ? "is-on " : "") + (sz.stock === 0 ? "is-oos" : "")} onClick={() => sz.stock > 0 && setSize(sz.s)} disabled={sz.stock === 0}>{sz.s}</button>
+                <option key={sz.s} value={sz.s} disabled={sz.stock === 0}>
+                  {sz.s.toUpperCase()}{sz.stock === 0 ? " — Sold out" : ""}
+                </option>
+              ))}
+            </select>
+            <span style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", pointerEvents: "none", fontSize: 11, color: "var(--char)" }}>▾</span>
+          </div>
+
+          <button
+            className="btn btn-solid btn-block"
+            style={{ fontSize: 12, letterSpacing: "0.2em", padding: "18px 0", marginBottom: 0 }}
+            onClick={() => { if (!size && !allOos) { alert("Please select a size."); return; } if (!oos) addToCart(product, size); }}
+          >
+            {oos ? "SOLD OUT" : "ADD TO CART"}
+          </button>
+
+          <div style={{ borderTop: "1px solid var(--line)", marginTop: 36, paddingTop: 28, textAlign: "center" }}>
+            {descLines.map((line, i) => (
+              <p key={i} style={{ fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", lineHeight: 1.65, margin: "0 0 16px" }}>{line}</p>
+            ))}
+            <div style={{ margin: "20px 0", display: "flex", flexDirection: "column", gap: 4 }}>
+              {features.map(f => (
+                <span key={f} style={{ fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)" }}>{f}</span>
               ))}
             </div>
-            {sel && (
-              <div className={"pdp-stock " + (lowStock ? "low" : "")} style={{ marginTop: 14 }}>
-                <div className="bar"><i style={{ width: `${Math.min(100, sel.stock * 8)}%` }} /></div>
-                <span>{oos ? "Sold out" : lowStock ? `Only ${sel.stock} left` : "In stock"}</span>
-              </div>
-            )}
+            <p style={{ fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", lineHeight: 1.65, margin: "20px 0 8px" }}>
+              Model is 175cm, 68kg and wearing a size S
+            </p>
+            <p style={{ fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", lineHeight: 1.65, margin: 0 }}>
+              Item Ready to Ship.<br />Dispatch within 2-4 Business Days.
+            </p>
           </div>
-          <button className="btn btn-solid btn-block" onClick={() => { if (!size) { alert("Please select a size."); return; } if (!oos) addToCart(product, size); }}>
-            {oos ? "Sold Out — Notify Me" : `Add to Cart — $${product.price}`}
-          </button>
-          <div>
-            <details className="accordion" open><summary><span>Description</span><span className="sym">+</span></summary><div className="body"><p>The {product.name} is constructed from 500GSM brushed loopback cotton, garment-dyed for a softened hand and a deep saturation that wears in slowly.</p></div></details>
-            <details className="accordion"><summary><span>Composition & Care</span><span className="sym">+</span></summary><div className="body"><dl className="spec-row"><dt>Composition</dt><dd>100% Organic Cotton</dd><dt>Weight</dt><dd>500 GSM</dd><dt>Construction</dt><dd>Loopback, brushed</dd><dt>Care</dt><dd>30°C — Inside out</dd><dt>Origin</dt><dd>Made in Portugal</dd></dl></div></details>
-            <details className="accordion"><summary><span>Shipping & Returns</span><span className="sym">+</span></summary><div className="body"><p>Complimentary worldwide shipping on orders over $200. 30-day returns on unworn items.</p></div></details>
+
+          <div style={{ marginTop: 32 }}>
+            {ACCORDIONS.map(({ label, content }) => (
+              <div key={label} style={{ borderTop: "1px solid var(--line)" }}>
+                <button
+                  onClick={() => toggleSection(label)}
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%", padding: "20px 0", background: "none", border: "none", cursor: "pointer", fontFamily: "var(--f-sans)", fontSize: 14, fontWeight: 600, color: "var(--ink)", textAlign: "left" }}
+                >
+                  <span>{label}</span>
+                  <span style={{ fontSize: 18, fontWeight: 300, lineHeight: 1, transform: openSection === label ? "rotate(45deg)" : "none", transition: "transform 0.2s ease" }}>+</span>
+                </button>
+                {openSection === label && (
+                  <div style={{ paddingBottom: 20, fontFamily: "var(--f-sans)", fontSize: 14, color: "var(--char)", lineHeight: 1.65 }}>{content}</div>
+                )}
+              </div>
+            ))}
+            <div style={{ borderTop: "1px solid var(--line)" }} />
           </div>
         </div>
       </div>
-      {showGuide && <SizeGuideModal onClose={() => setShowGuide(false)} />}
     </div>
   );
 }
