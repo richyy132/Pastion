@@ -495,7 +495,7 @@ function NavDropdown({ trigger, columns, isActive, onItemClick }) {
               <ul>
                 {col.items.map(it => (
                   <li key={it.label}>
-                    <a href="#" onClick={e => { e.preventDefault(); setOpen(false); if (onItemClick) onItemClick(it); }}>
+                    <a href={it.href || "#"} target={it.href ? "_blank" : undefined} rel={it.href ? "noopener noreferrer" : undefined} onClick={e => { if (!it.href) e.preventDefault(); setOpen(false); if (!it.href && onItemClick) onItemClick(it); }}>
                       <span>{it.label}</span>
                       {it.note && <em className="nav-dd-note">{it.note}</em>}
                     </a>
@@ -518,7 +518,7 @@ function Nav({ page, setPage, cart, openCart }) {
   ];
   const elseCols = [
     { heading: "General", items: [{ label: "Account" }, { label: "FAQ", to: "faq" }, { label: "Contact", to: "contact" }] },
-    { heading: "Community", items: [{ label: "About", to: "about" }, { label: "Discord" }, { label: "Instagram" }] },
+    { heading: "Community", items: [{ label: "About", to: "about" }, { label: "Discord", href: "https://discord.gg/rWNgX32RVv" }, { label: "Instagram", href: "https://www.instagram.com/pastionclothing/" }] },
   ];
   const go = it => { if (it.to) setPage(it.to); };
   return (
@@ -563,8 +563,12 @@ function Footer({ setPage }) {
 
         <div>
           <h4 style={colHead}>Social</h4>
-          {["Instagram", "Youtube", "Discord"].map(s => (
-            <a key={s} href="#" onClick={e => e.preventDefault()} style={link}>{s}</a>
+          {[
+            { label: "Instagram", href: "https://www.instagram.com/pastionclothing/" },
+            { label: "Youtube", href: "#" },
+            { label: "Discord", href: "https://discord.gg/rWNgX32RVv" },
+          ].map(({ label, href }) => (
+            <a key={label} href={href} target={href !== "#" ? "_blank" : undefined} rel={href !== "#" ? "noopener noreferrer" : undefined} onClick={href === "#" ? e => e.preventDefault() : undefined} style={link}>{label}</a>
           ))}
         </div>
 
